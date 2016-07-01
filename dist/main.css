@@ -1,3 +1,6 @@
+body {
+  background: #F5F5F5; }
+
 ul {
   list-style: none;
   padding: 0;
@@ -7,107 +10,193 @@ a {
   text-decoration: none;
   color: #000; }
 
+h1, h2, h3, h4, h5 {
+  padding: 0;
+  margin: 0;
+  font-weight: normal; }
+
+.myAlbumsPage header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.5vh 5vw;
+  background: #3b7bd1;
+  color: #fff; }
+  .myAlbumsPage header nav button {
+    background: none;
+    border: 2px solid #fff;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 25px;
+    outline: none; }
+    .myAlbumsPage header nav button:hover {
+      background: #fff;
+      color: #3b7bd1;
+      cursor: pointer; }
+    .myAlbumsPage header nav button i {
+      margin-right: 15px; }
+
 ul.albums-grid {
   display: flex;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  margin: 0 5vw 2vw 5vw; }
 
-li.album {
-  background: gray;
-  width: calc(100%/3);
-  text-align: center; }
-  li.album .image-container {
-    height: 300px;
+.albums-grid li {
+  width: calc(100%/4);
+  text-align: center;
+  padding: 1vw;
+  box-sizing: border-box; }
+  .albums-grid li .image-container {
+    height: 15vw;
     background: url("assets/images/album-0/p1.jpeg") no-repeat;
-    background-size: cover; }
+    background-size: cover;
+    border: 0;
+    border-radius: 2px; }
+
+.album-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #9C9C9C; }
+  .album-meta div {
+    display: flex;
+    align-items: center; }
+    .album-meta div i {
+      margin-right: 10px;
+      color: #FE5151; }
+    .album-meta div p {
+      color: #FE5151; }
+    .album-meta div .fa-heart {
+      display: none; }
+    .album-meta div:hover .fa-heart {
+      display: inline; }
+    .album-meta div:hover .fa-heart-o {
+      display: none; }
+  .album-meta .liked .fa-heart {
+    display: inline; }
+  .album-meta .liked .fa-heart-o {
+    display: none; }
+
+.new-album {
+  margin: 50px 0;
+  height: 16.5vw;
+  padding: 1vw; }
+  .new-album div {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px dashed #9C9C9C;
+    border-radius: 2px;
+    color: #9C9C9C; }
+    .new-album div i {
+      margin-right: 10px; }
+    .new-album div:hover {
+      cursor: pointer;
+      border: 3px dashed #3b7bd1;
+      color: #3b7bd1; }
 
 .album-page {
   display: flex;
   position: relative; }
   .album-page nav {
-    width: 20vw;
+    width: 18vw;
     height: 100vh;
-    background: gray;
-    position: fixed; }
+    background: #3b7bd1;
+    position: fixed;
+    box-sizing: border-box; }
+    .album-page nav h3 {
+      color: #fff;
+      padding: 4vh 1vw;
+      background: #2963b0; }
+      .album-page nav h3 i {
+        margin-right: 10px; }
     .album-page nav ul li {
-      text-align: center;
-      padding: 10px 0; }
-      .album-page nav ul li a:hover {
-        color: dodgerblue; }
+      padding: 4vh 1vw;
+      box-sizing: border-box; }
+      .album-page nav ul li a {
+        color: #fff; }
+      .album-page nav ul li:hover {
+        cursor: pointer;
+        background: #5089d6; }
+    .album-page nav ul .selected {
+      background: #6497db; }
   .album-page main {
     margin-left: 20vw;
     flex: 1; }
+    .album-page main header {
+      color: #9C9C9C;
+      padding: 3vh; }
 
 .grid-item {
-  width: 200px; }
+  box-sizing: border-box;
+  padding: 10px;
+  transition: padding 200ms; }
   .grid-item img {
     width: 100%;
-    height: auto; }
+    height: auto;
+    border: 0;
+    border-radius: 2px; }
+  .grid-item:hover {
+    cursor: pointer;
+    padding: 0; }
 
 .image-page main {
   background: #241A18;
   height: 100vh;
-  width: 100vw; }
-  .image-page main .slider-wrapper ul {
-    display: flex;
-    position: relative;
-    width: 100vw;
-    overflow: hidden; }
-  .image-page main .prevImg {
-    opacity: 0.2;
-    cursor: pointer; }
-    .image-page main .prevImg img {
-      margin-top: 7.5vh;
-      height: 85vh; }
-    .image-page main .prevImg:hover {
-      opacity: 0.5; }
-  .image-page main .currImg {
-    margin: 0 5vw; }
-    .image-page main .currImg img {
-      margin-top: 5vh;
-      height: 90vh; }
-  .image-page main .nextImg {
-    opacity: 0.2;
-    cursor: pointer; }
-    .image-page main .nextImg img {
-      margin-top: 7.5vh;
-      height: 85vh; }
-    .image-page main .nextImg:hover {
-      opacity: 0.5; }
-  .image-page main .hiddenImage {
-    display: none; }
+  width: 100vw;
+  overflow: hidden; }
+
+.clearfix::after {
+  content: "";
+  clear: both; }
 
 .slider {
-  list-style: none;
-  display: block;
+  position: relative;
+  height: 75vh;
   width: 100%;
-  overflow: hidden;
-  position: relative; }
+  overflow: hidden; }
 
-.slider .single_slide {
-  background-image: url("http://www.anony.ws/i/2015/04/18/tropical.jpg");
-  background-size: cover;
-  background-position: 0% 0%;
-  background-repeat: no-repeat;
-  height: 520px;
-  float: left;
-  display: block;
-  margin: 0;
-  padding: 0;
-  border-radius: 0px;
-  overflow: hidden;
-  opacity: 0.15;
-  width: 1260px;
-  cursor: pointer;
-  -webkit-transition: opacity 800ms ease-in-out;
-  transition: opacity 800ms ease-in-out; }
+.slider {
+  position: relative;
+  height: 75vh;
+  width: 100%;
+  overflow: hidden; }
+  .slider li {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    text-align: center;
+    display: none;
+    transition: .5s; }
+    .slider li img {
+      height: 100%;
+      transition: .5s; }
+  .slider .curr {
+    z-index: 1;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block; }
+    .slider .curr img {
+      object-fit: scale-down;
+      max-width: 100%; }
+  .slider .prev {
+    display: block;
+    z-index: 0;
+    left: -35%;
+    opacity: 0.5; }
+    .slider .prev img {
+      position: absolute;
+      right: 0; }
+  .slider .next {
+    display: block;
+    left: 85%;
+    opacity: 0.5; }
+    .slider .next img {
+      position: absolute;
+      left: 0; }
 
-.slider .single_slide.active {
-  opacity: 1;
-  cursor: default;
-  -webkit-transition: opacity 800ms ease-in-out;
-  transition: opacity 800ms ease-in-out; }
-
-.myAlbumsPage, .image-page {
+.album-page, .image-page {
   display: none; }
 
 /*# sourceMappingURL=main.css.map */
