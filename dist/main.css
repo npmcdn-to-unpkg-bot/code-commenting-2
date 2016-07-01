@@ -1,0 +1,113 @@
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0; }
+
+a {
+  text-decoration: none;
+  color: #000; }
+
+ul.albums-grid {
+  display: flex;
+  flex-wrap: wrap; }
+
+li.album {
+  background: gray;
+  width: calc(100%/3);
+  text-align: center; }
+  li.album .image-container {
+    height: 300px;
+    background: url("assets/images/album-0/p1.jpeg") no-repeat;
+    background-size: cover; }
+
+.album-page {
+  display: flex;
+  position: relative; }
+  .album-page nav {
+    width: 20vw;
+    height: 100vh;
+    background: gray;
+    position: fixed; }
+    .album-page nav ul li {
+      text-align: center;
+      padding: 10px 0; }
+      .album-page nav ul li a:hover {
+        color: dodgerblue; }
+  .album-page main {
+    margin-left: 20vw;
+    flex: 1; }
+
+.grid-item {
+  width: 200px; }
+  .grid-item img {
+    width: 100%;
+    height: auto; }
+
+.image-page main {
+  background: #241A18;
+  height: 100vh;
+  width: 100vw; }
+  .image-page main .slider-wrapper ul {
+    display: flex;
+    position: relative;
+    width: 100vw;
+    overflow: hidden; }
+  .image-page main .prevImg {
+    opacity: 0.2;
+    cursor: pointer; }
+    .image-page main .prevImg img {
+      margin-top: 7.5vh;
+      height: 85vh; }
+    .image-page main .prevImg:hover {
+      opacity: 0.5; }
+  .image-page main .currImg {
+    margin: 0 5vw; }
+    .image-page main .currImg img {
+      margin-top: 5vh;
+      height: 90vh; }
+  .image-page main .nextImg {
+    opacity: 0.2;
+    cursor: pointer; }
+    .image-page main .nextImg img {
+      margin-top: 7.5vh;
+      height: 85vh; }
+    .image-page main .nextImg:hover {
+      opacity: 0.5; }
+  .image-page main .hiddenImage {
+    display: none; }
+
+.slider {
+  list-style: none;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  position: relative; }
+
+.slider .single_slide {
+  background-image: url("http://www.anony.ws/i/2015/04/18/tropical.jpg");
+  background-size: cover;
+  background-position: 0% 0%;
+  background-repeat: no-repeat;
+  height: 520px;
+  float: left;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border-radius: 0px;
+  overflow: hidden;
+  opacity: 0.15;
+  width: 1260px;
+  cursor: pointer;
+  -webkit-transition: opacity 800ms ease-in-out;
+  transition: opacity 800ms ease-in-out; }
+
+.slider .single_slide.active {
+  opacity: 1;
+  cursor: default;
+  -webkit-transition: opacity 800ms ease-in-out;
+  transition: opacity 800ms ease-in-out; }
+
+.myAlbumsPage, .image-page {
+  display: none; }
+
+/*# sourceMappingURL=main.css.map */
