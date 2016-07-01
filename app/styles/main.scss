@@ -75,6 +75,18 @@ ul.albums-grid {
   }
 }
 
+.album:hover {
+  padding-right: 0;
+  padding-left: 0;
+  padding-bottom: 0;
+  transition: padding 200ms;
+  .album-meta {
+    margin: 0 1vw;
+    transition: margin 200ms;
+  }
+}
+
+
 .album-meta {
   display: flex;
   justify-content: space-between;
@@ -186,11 +198,11 @@ ul.albums-grid {
         }
         &:hover {
           cursor: pointer;
-          background: lighten($navColor, 5%);
+          background: rgba(255,255,255,0.1);
         }
       }
       .selected {
-        background: lighten($navColor, 10%);
+        background: darken($navColor, 5%);
       }
     }
   }
@@ -245,11 +257,6 @@ ul.albums-grid {
     width: 100vw;
     overflow: hidden;
   }
-}
-
-.clearfix::after {
-  content: "";
-  clear: both;
 }
 
 .slider {

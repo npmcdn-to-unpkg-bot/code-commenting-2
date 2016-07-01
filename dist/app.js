@@ -1,12 +1,21 @@
 var userName ='';
 
-renderHome(userName);
+renderHome();
 // renderAlbum(1);
 // renderImage();
 
 
-function renderHome(userID) {
+function renderHome() {
+  var $myAlbums = $('.myAlbumsPage');
+  var $albumPage = $('.album-page');
+  var $imagePage = $('.image-page');
+  $myAlbums.css('display', 'block'); // Removes the page before it.
+  $imagePage.css('display', 'none'); // Removes the page after it.
+  $albumPage.css('display', 'none'); // Display this page
+
   var $albumsGrid = $('.albums-grid');
+  $albumsGrid.empty();
+
   data.forEach(function(album, i) {
     var liHTML = '<li class="album"><a href="#"><div class="album-meta"><div><i class="fa fa-heart" aria-hidden="true"></i><i class="fa fa-heart-o" aria-hidden="true"></i><p class="likes">0</p></div><h5 class="Album title">Album Title</h5></div><div class="image-container"></div></a></li>';
     var $li = $(liHTML);
@@ -21,7 +30,7 @@ function renderHome(userID) {
     $li.children('a').children('.image-container').attr('data-index', i);
     // console.log($li.data()); // To call the data.
 
-    $albumsGrid.prepend($li);
+    $albumsGrid.append($li);
 
     // event Listener
     $li.children('a').children('.image-container').on('click', function(e){
@@ -41,6 +50,8 @@ function renderHome(userID) {
       $(this).children('p').text(data[albumIndex].likes);
     });
   });
+  var newAlbumHTML = '<li class="new-album"><div><i class="fa fa-plus" aria-hidden="true"></i><h3>New Album</h3></div></li>';
+  $albumsGrid.append($(newAlbumHTML));
 }
 
 
@@ -60,6 +71,11 @@ function renderAlbum(albumIndex) { // albumIndex is an object with index as a ke
   $albumPage.css('display', 'flex'); // Display this page
 
   var $sideUl = $('.side-bar').children('ul');
+  $('.album-title').text(data[albumIndex].title); // Set the title
+  $('.side-bar a').on('click', function() {
+    console.log('RENDER HOME');
+    renderHome();
+  });
 
   var $grid = $('.grid').masonry({
     // options
@@ -92,8 +108,9 @@ function renderAlbum(albumIndex) { // albumIndex is an object with index as a ke
 
     });
   });
-  // console.log(albumIndex);
-  // console.log(data[0]);
+
+  // console.log('selected is:', $('.album-link:nth-child(' + (albumIndex+1) + ')'));
+  $('.album-link:nth-child(' + (albumIndex+1) + ')').addClass('selected');
   data[albumIndex].images.forEach(function(image, i){
     var imageHTML = '<div class="grid-item"><img src="' + image + '" alt="" <img/></div>';
     var $image = $(imageHTML);
@@ -246,8 +263,6 @@ function renderImage(albumIndex, imageIndex) {
       $next.removeClass('next');
       $newPrev.addClass('prev').one('click', prevClickHandler);
     }
-
-
 
     if (currentIndex-1 ===  0) { // If the next image is 0
       console.log('BEFORE FIRST ONE');

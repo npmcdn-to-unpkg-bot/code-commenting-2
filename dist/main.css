@@ -53,6 +53,15 @@ ul.albums-grid {
     border: 0;
     border-radius: 2px; }
 
+.album:hover {
+  padding-right: 0;
+  padding-left: 0;
+  padding-bottom: 0;
+  transition: padding 200ms; }
+  .album:hover .album-meta {
+    margin: 0 1vw;
+    transition: margin 200ms; }
+
 .album-meta {
   display: flex;
   justify-content: space-between;
@@ -118,9 +127,9 @@ ul.albums-grid {
         color: #fff; }
       .album-page nav ul li:hover {
         cursor: pointer;
-        background: #5089d6; }
+        background: rgba(255, 255, 255, 0.1); }
     .album-page nav ul .selected {
-      background: #6497db; }
+      background: #2e6ec4; }
   .album-page main {
     margin-left: 20vw;
     flex: 1; }
@@ -146,10 +155,6 @@ ul.albums-grid {
   height: 100vh;
   width: 100vw;
   overflow: hidden; }
-
-.clearfix::after {
-  content: "";
-  clear: both; }
 
 .slider {
   position: relative;
