@@ -262,6 +262,7 @@ function renderImage(albumIndex, imageIndex) {
   $imagePage.css('display', 'flex'); // Display page
 
   var $slider = $('.slider');
+  $slider.empty();
   var autoplay = false;
 
   var prevImageIndex = imageIndex-1;
