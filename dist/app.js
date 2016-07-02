@@ -36,6 +36,8 @@ function renderHome() {
   var $modalContainer = $('.modal-container');
   var $loginBtn = $('#email-submit');
   var $emailInput = $('#email-input');
+
+  var $logoutBtn = $('.logoutBtn');
   var $myAlbums = $('.myAlbumsPage');
   var $albumPage = $('.album-page');
   var $imagePage = $('.image-page');
@@ -65,6 +67,15 @@ function renderHome() {
     } else {
       // INVALID EMAIL
     }
+  });
+
+  $logoutBtn.on('click', function(){
+    userEmail = '';
+    if (sessionStorage.email) {
+      sessionStorage.removeItem('email');
+    }
+    $modalContainer.css('display', 'flex');
+    $('.login').css('display', 'flex');
   });
 
   data.forEach(function(album, i) {
