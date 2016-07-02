@@ -44,7 +44,8 @@ h1,h2,h3,h4,h5 {
         outline: none;
         &:hover {
           background: #fff;
-          color: $navColor;
+          background: $likedColor;
+          border: 2px solid $likedColor;
           cursor: pointer;
         }
         i {
@@ -266,7 +267,7 @@ ul.albums-grid {
   height: 100vh;
   background: rgba(0,0,0,0.9);
   .modal {
-    display: flex;
+    display: none;
     flex-direction: column;
     width: 40%;
     background: $backgroundColor;
@@ -306,6 +307,32 @@ ul.albums-grid {
       &:hover {
         cursor: pointer;
         background: darken($navColor,10%);
+      }
+    }
+  }
+  .add-image {
+    display: none;
+  }
+  .login {
+    display: none;
+    // width: 50%;
+    form {
+      display: flex;
+      input {
+        flex: 1;
+      }
+      label {
+        padding: 2vh;
+        background: $navColor;
+        color: #fff;
+        font-size: 2rem;
+        height: 100%;
+        border-bottom-left-radius: 5px;
+      }
+      button {
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 0;
+        background-color: #9e9e9e;
       }
     }
   }

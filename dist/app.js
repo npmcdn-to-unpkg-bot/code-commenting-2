@@ -1,4 +1,4 @@
-var userName ='';
+var userEmail ='';
 
 if (location.hash.indexOf('album') !== -1) {
   gotoHash();
@@ -26,19 +26,16 @@ function gotoHash() {
   }
 }
 
-var $modalContainer = $('.modal-container');
-$modalContainer.on('click', function(e){
-  if ($(e.target).hasClass('modal-container')) {
-    $modalContainer.css('display', 'none');
-  }
-});
-
 $('.dismiss').on('click', function(){
   $modalContainer.css('display', 'none');
+  $('.modal').css('display', 'none');
 });
 
 
 function renderHome() {
+  var $modalContainer = $('.modal-container');
+  var $loginBtn = $('#email-submit');
+  var $emailInput = $('#email-input');
   var $myAlbums = $('.myAlbumsPage');
   var $albumPage = $('.album-page');
   var $imagePage = $('.image-page');
@@ -48,6 +45,27 @@ function renderHome() {
 
   var $albumsGrid = $('.albums-grid');
   $albumsGrid.empty();
+
+  if (sessionStorage.email) {
+    console.log('EMAIL FOUND');
+    console.log($modalContainer);
+  } else {
+    $modalContainer.css('display', 'flex');
+    $('.login').css('display', 'flex');
+  }
+
+  $loginBtn.on('click', function(){
+    var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (emailRegex.test($emailInput.val())) {
+      // VALID EMAIL
+      userEmail = $emailInput.val();
+      sessionStorage.email = $emailInput.val();
+      $modalContainer.css('display', 'none');
+      $('.modal').css('display', 'none');
+    } else {
+      // INVALID EMAIL
+    }
+  });
 
   data.forEach(function(album, i) {
     var liHTML = '<li class="album"><a href="#"><div class="album-meta"><div><i class="fa fa-heart" aria-hidden="true"></i><i class="fa fa-heart-o" aria-hidden="true"></i><p class="likes">0</p></div><h5 class="Album title">Album Title</h5></div><div class="image-container"></div></a></li>';
@@ -96,6 +114,7 @@ function renderHome() {
 
 
 function renderAlbum(albumIndex) { // albumIndex is an object with index as a key
+  var $modalContainer = $('.modal-container');
   var albumName = data[albumIndex].title;
   var $myAlbums = $('.myAlbumsPage');
   var $albumPage = $('.album-page');
@@ -104,6 +123,12 @@ function renderAlbum(albumIndex) { // albumIndex is an object with index as a ke
   $myAlbums.css('display', 'none'); // Removes the page before it.
   $imagePage.css('display', 'none'); // Removes the page after it.
   $albumPage.css('display', 'flex'); // Display this page
+
+  $modalContainer.on('click', function(e){
+    if ($(e.target).hasClass('modal-container')) {
+      $modalContainer.css('display', 'none');
+    }
+  });
 
   var $sideUl = $('.side-bar div').children('ul');
   $('.album-title').text(data[albumIndex].title); // Set the title

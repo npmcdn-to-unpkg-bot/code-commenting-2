@@ -31,7 +31,8 @@ h1, h2, h3, h4, h5 {
     outline: none; }
     .myAlbumsPage header nav button:hover {
       background: #fff;
-      color: #3b7bd1;
+      background: #FE5151;
+      border: 2px solid #FE5151;
       cursor: pointer; }
     .myAlbumsPage header nav button i {
       margin-right: 15px; }
@@ -172,7 +173,7 @@ ul.albums-grid {
   height: 100vh;
   background: rgba(0, 0, 0, 0.9); }
   .modal-container .modal {
-    display: flex;
+    display: none;
     flex-direction: column;
     width: 40%;
     background: #F5F5F5;
@@ -206,6 +207,25 @@ ul.albums-grid {
       .modal-container .modal button:hover {
         cursor: pointer;
         background: #2963b0; }
+  .modal-container .add-image {
+    display: none; }
+  .modal-container .login {
+    display: none; }
+    .modal-container .login form {
+      display: flex; }
+      .modal-container .login form input {
+        flex: 1; }
+      .modal-container .login form label {
+        padding: 2vh;
+        background: #3b7bd1;
+        color: #fff;
+        font-size: 2rem;
+        height: 100%;
+        border-bottom-left-radius: 5px; }
+      .modal-container .login form button {
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 0;
+        background-color: #9e9e9e; }
 
 .image-page main {
   background: #F5F5F5;
