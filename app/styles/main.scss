@@ -6,6 +6,7 @@ $navColor: #3b7bd1;
 
 body {
   background: $backgroundColor;
+  // position: relative;
 }
 
 ul {
@@ -173,33 +174,53 @@ ul.albums-grid {
   display: flex;
   position: relative;
   nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 18vw;
     height: 100vh;
     background: $navColor;
     position: fixed;
     box-sizing: border-box;
-    h3 {
-      color: #fff;
-      padding: 4vh 1vw;
-      background: darken($navColor, 10%);
-      i {
-        margin-right: 10px;
+    div {
+      h3 {
+        color: #fff;
+        padding: 4vh 1vw;
+        background: darken($navColor, 10%);
+        &:hover {
+          background: darken($navColor, 7%);
+          cursor: pointer;
+        }
+        i {
+          margin-right: 10px;
+        }
+      }
+      ul {
+        li {
+          padding: 4vh 1vw;
+          box-sizing: border-box;
+          a {
+            color: #fff;
+          }
+          &:hover {
+            cursor: pointer;
+            background: rgba(255,255,255,0.1);
+          }
+        }
+        .selected {
+          background: darken($navColor, 5%);
+        }
       }
     }
-    ul {
-      li {
-        padding: 4vh 1vw;
-        box-sizing: border-box;
-        a {
-          color: #fff;
-        }
-        &:hover {
-          cursor: pointer;
-          background: rgba(255,255,255,0.1);
-        }
-      }
-      .selected {
-        background: darken($navColor, 5%);
+    button {
+      border: none;
+      background: darken($navColor, 10%);
+      color: #fff;
+      padding: 3vh 0;
+      outline: none;
+      &:hover {
+        background: darken($navColor, 7%);
+        cursor: pointer;
       }
     }
   }
@@ -235,7 +256,60 @@ ul.albums-grid {
 
 
 
-
+.modal-container {
+  position: absolute;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.9);
+  .modal {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    background: $backgroundColor;
+    border: 0;
+    border-radius: 5px;
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      h3 {
+        padding: 3vh;
+        color: $textColor;
+      }
+      a {
+        color: $textColor;
+        margin-right: 3vh;
+        font-size: 2rem;
+        &:hover {
+          color: $likedColor;
+        }
+      }
+    }
+    input {
+      border: 0;
+      padding: 3vh;
+      outline: none;
+    }
+    button {
+      // margin-top: 3vh;
+      background: $navColor;
+      border: 0;
+      border-bottom-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+      outline: none;
+      color: #fff;
+      padding: 3vh;
+      &:hover {
+        cursor: pointer;
+        background: darken($navColor,10%);
+      }
+    }
+  }
+}
 
 
 

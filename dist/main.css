@@ -106,27 +106,42 @@ ul.albums-grid {
   display: flex;
   position: relative; }
   .album-page nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 18vw;
     height: 100vh;
     background: #3b7bd1;
     position: fixed;
     box-sizing: border-box; }
-    .album-page nav h3 {
+    .album-page nav div h3 {
       color: #fff;
       padding: 4vh 1vw;
       background: #2963b0; }
-      .album-page nav h3 i {
+      .album-page nav div h3:hover {
+        background: #2c6abc;
+        cursor: pointer; }
+      .album-page nav div h3 i {
         margin-right: 10px; }
-    .album-page nav ul li {
+    .album-page nav div ul li {
       padding: 4vh 1vw;
       box-sizing: border-box; }
-      .album-page nav ul li a {
+      .album-page nav div ul li a {
         color: #fff; }
-      .album-page nav ul li:hover {
+      .album-page nav div ul li:hover {
         cursor: pointer;
         background: rgba(255, 255, 255, 0.1); }
-    .album-page nav ul .selected {
+    .album-page nav div ul .selected {
       background: #2e6ec4; }
+    .album-page nav button {
+      border: none;
+      background: #2963b0;
+      color: #fff;
+      padding: 3vh 0;
+      outline: none; }
+      .album-page nav button:hover {
+        background: #2c6abc;
+        cursor: pointer; }
   .album-page main {
     margin-left: 20vw;
     flex: 1; }
@@ -146,6 +161,51 @@ ul.albums-grid {
   .grid-item:hover {
     cursor: pointer;
     padding: 0; }
+
+.modal-container {
+  position: absolute;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9); }
+  .modal-container .modal {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    background: #F5F5F5;
+    border: 0;
+    border-radius: 5px; }
+    .modal-container .modal div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center; }
+      .modal-container .modal div h3 {
+        padding: 3vh;
+        color: #9C9C9C; }
+      .modal-container .modal div a {
+        color: #9C9C9C;
+        margin-right: 3vh;
+        font-size: 2rem; }
+        .modal-container .modal div a:hover {
+          color: #FE5151; }
+    .modal-container .modal input {
+      border: 0;
+      padding: 3vh;
+      outline: none; }
+    .modal-container .modal button {
+      background: #3b7bd1;
+      border: 0;
+      border-bottom-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+      outline: none;
+      color: #fff;
+      padding: 3vh; }
+      .modal-container .modal button:hover {
+        cursor: pointer;
+        background: #2963b0; }
 
 .image-page main {
   background: #F5F5F5;

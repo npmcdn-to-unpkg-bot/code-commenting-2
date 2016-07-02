@@ -1,18 +1,16 @@
 var userName ='';
 
-renderHome();
-// renderAlbum(1);
-// renderImage();
-
-if (location.hash !== '') {
+if (location.hash.indexOf('album') !== -1) {
   gotoHash();
+} else {
+  renderHome();
 }
 
 
-$(window).on('hashchange', gotoHash);
+$(window).on('hashchange', gotoHash); // Hash change event
 
 function gotoHash() {
-  console.log('GO TO HASH');
+  // console.log('GO TO HASH');
   var albumHash = location.hash.match(/album=.*?(?=&)/g);
   var imageHash = location.hash.match(/image=.*?(?=&)/g);
   if (imageHash !== null) {
@@ -27,6 +25,17 @@ function gotoHash() {
     renderAlbum(albumIndex);
   }
 }
+
+var $modalContainer = $('.modal-container');
+$modalContainer.on('click', function(e){
+  if ($(e.target).hasClass('modal-container')) {
+    $modalContainer.css('display', 'none');
+  }
+});
+
+$('.dismiss').on('click', function(){
+  $modalContainer.css('display', 'none');
+});
 
 
 function renderHome() {
@@ -48,8 +57,6 @@ function renderHome() {
     // Set the title
     $li.children('a').children('.album-meta').children('h5').text(album.title);
     $li.children('a').children('.album-meta').children('div').children('p').text(album.likes);
-    // Set the user
-    // $li.children('a').children('.album-footer').children('p').text(album.user);
     // Set the data:
     $li.children('a').children('.image-container').attr('data-index', i);
     // console.log($li.data()); // To call the data.
@@ -89,17 +96,18 @@ function renderHome() {
 
 
 function renderAlbum(albumIndex) { // albumIndex is an object with index as a key
+  var albumName = data[albumIndex].title;
   var $myAlbums = $('.myAlbumsPage');
   var $albumPage = $('.album-page');
   var $imagePage = $('.image-page');
+  var $addImageModal = $('.add-image');
   $myAlbums.css('display', 'none'); // Removes the page before it.
   $imagePage.css('display', 'none'); // Removes the page after it.
   $albumPage.css('display', 'flex'); // Display this page
 
-  var $sideUl = $('.side-bar').children('ul');
+  var $sideUl = $('.side-bar div').children('ul');
   $('.album-title').text(data[albumIndex].title); // Set the title
   $('.side-bar a').on('click', function() {
-    console.log('RENDER HOME');
     renderHome();
   });
 
@@ -134,8 +142,19 @@ function renderAlbum(albumIndex) { // albumIndex is an object with index as a ke
     });
   });
 
-  // console.log('selected is:', $('.album-link:nth-child(' + (albumIndex+1) + ')'));
-  $('.album-link:nth-child(' + (albumIndex+1) + ')').addClass('selected');
+  if(window.localStorage) { // If the browser supports localstorage
+    if (localStorage[albumName]) { // If localstorage contains this album
+      var savedAlbum = localStorage.getItem(albumName); // Get the album object
+      savedAlbum = JSON.parse(savedAlbum); // Parse it with JSON
+      savedAlbum[0].images.forEach(function(imgURL, i) { // Loop through the images array inside it
+        if (data[albumIndex].images.indexOf(imgURL) === -1) { // If our data doesn't already have the image
+          data[albumIndex].images.push(imgURL); // Add the image to the existing data object.
+        }
+      });
+    }
+  }
+
+  $('.album-link:nth-child(' + (albumIndex+1) + ')').addClass('selected'); // Select our current album
   data[albumIndex].images.forEach(function(image, i){
     var imageHTML = '<div class="grid-item"><img src="' + image + '" alt="" <img/></div>';
     var $image = $(imageHTML);
@@ -149,8 +168,46 @@ function renderAlbum(albumIndex) { // albumIndex is an object with index as a ke
     });
   });
 
+
+
   $grid.imagesLoaded().progress( function() {
     $grid.masonry('layout'); // Layout images after they have been loaded
+  });
+
+  $('.add-image-button').on('click', function(){
+    $modalContainer.css('display', 'flex');
+    $addImageModal.css('display', 'flex');
+  });
+
+  $('.submit').on('click', function(){
+    // console.log('added image');
+    var imgURL = $('.image-url').val();
+
+
+    if(window.localStorage) {
+      console.log(albumName);
+      if (localStorage[albumName]) {
+        console.log('Album already exists');
+        var retrievedObject = localStorage.getItem(albumName);
+        console.log('retrievedObject: ', JSON.parse(retrievedObject));
+      } else {
+        console.log('Creating new Album file');
+        var albumObject = {images: [imgURL]};
+        var albums = [albumObject];
+        localStorage.setItem(albumName, JSON.stringify(albums));
+      }
+    } else {
+      // If local storage is unsupported. We add it normally.
+      data[albumIndex].images.push(imgURL);
+      var newImageHTML = '<div class="grid-item"><img src="' + imgURL + '" alt="" <img/></div>';
+      var $newImage = $(newImageHTML);
+      $newImage.attr('data-index', data[albumIndex].images.length-1);
+      $newImage.css('width', ($('.grid').width()/4)-10 + 'px');
+      $grid.masonry().append($newImage).masonry( 'appended', $newImage ).masonry();
+    }
+
+    $modalContainer.css('display', 'none');
+    $addImageModal.css('display', 'none');
   });
 }
 
@@ -308,6 +365,9 @@ function renderImage(albumIndex, imageIndex) {
     }, 2000);
   }
 }
+
+
+
 
 
 

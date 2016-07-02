@@ -51,12 +51,15 @@
 
     <div class="album-page">
       <nav class="side-bar">
-        <a href="#"><h3><i class="fa fa-picture-o" aria-hidden="true"></i>Albums</h3></a>
-        <ul>
-          <!-- <li class="album-link"><a href="#">Album Title</a></li>
-          <li><a href="#">Album Title</a></li>
-          <li><a href="#">Album Title</a></li> -->
-        </ul>
+        <div class="">
+          <a href="#"><h3><i class="fa fa-picture-o" aria-hidden="true"></i>Albums</h3></a>
+          <ul>
+            <!-- <li class="album-link"><a href="#">Album Title</a></li>
+            <li><a href="#">Album Title</a></li>
+            <li><a href="#">Album Title</a></li> -->
+          </ul>
+        </div>
+        <button class="add-image-button" type="button" name="button">Add image</button>
       </nav>
       <main>
         <header>
@@ -69,6 +72,17 @@
           -->
         </div>
       </main>
+    </div>
+
+    <div class="modal-container">
+      <div class="add-image modal">
+        <div class="description">
+          <h3>Paste image URL</h3>
+          <a class="dismiss" href="#"><i class="fa fa-times-circle-o" aria-hidden="true"></i></a>
+        </div>
+        <input class="image-url" type="text" name="name" value="" autofocus>
+        <button class="submit" type="button" name="button">Submit</button>
+      </div>
     </div>
 
 
