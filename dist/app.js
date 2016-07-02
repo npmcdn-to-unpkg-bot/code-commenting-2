@@ -147,6 +147,15 @@ function renderHome() {
     $modalContainer.css('display', 'flex');
     $('.create-album').css('display', 'flex');
     var $submitBtn = $('#album-submit');
+    $submitBtn.removeClass('valid');
+
+    $albumName.on('keyup', function(){
+      if ($albumName.val() !== '' && $imageInput.val() !== '') {
+        $submitBtn.addClass('valid');
+      } else {
+        $submitBtn.removeClass('valid');
+      }
+    });
 
     $imageInput.on('keyup', function(){
       if ($albumName.val() !== '' && $imageInput.val() !== '') {
@@ -295,7 +304,7 @@ function renderAlbum(albumIndex) { // albumIndex is a data object with index as 
     }
   }
 
-  $('.album-link:nth-child(' + (albumIndex+1) + ')').addClass('selected'); // Select our current album
+  $('.album-link:nth-child(' + (Number(albumIndex)+1) + ')').addClass('selected'); // Select our current album
 
 
   data[albumIndex].images.forEach(function(image, i){
