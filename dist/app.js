@@ -139,21 +139,22 @@ function renderHome() {
 
   var $newAlbum = $('.new-album');
 
-
-
-
-
-
-
-
-
   $newAlbum.on('click',function(){
+    var $albumName = $('.album-name');
+    $albumName.val('');
+    var $imageInput = $('#album-first-image');
+    $imageInput.val('');
     $modalContainer.css('display', 'flex');
     $('.create-album').css('display', 'flex');
     var $submitBtn = $('#album-submit');
 
-    var $albumName = $('.album-name');
-    var $imageInput = $('#album-first-image');
+    $imageInput.on('keyup', function(){
+      if ($albumName.val() !== '' && $imageInput.val() !== '') {
+        $submitBtn.addClass('valid');
+      } else {
+        $submitBtn.removeClass('valid');
+      }
+    });
 
     $submitBtn.on('click', function(){
       if ($albumName.val() !== '' && $imageInput.val() !== '') {
@@ -192,12 +193,10 @@ function renderHome() {
         }
         $modalContainer.css('display', 'none');
         $('.modal').css('display', 'none');
+      } else {
+        $('.create-album').effect('shake');
       }
     });
-
-
-
-
 
     $('.dismiss').one('click', function(){
       $modalContainer.css('display', 'none');
