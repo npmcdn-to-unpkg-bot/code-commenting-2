@@ -209,7 +209,11 @@ ul.albums-grid {
       padding: 3vh; }
       .modal-container .modal button:hover {
         cursor: pointer;
-        background: #2963b0; }
+        background: #FE5151; }
+    .modal-container .modal .valid {
+      background: #3b7bd1; }
+      .modal-container .modal .valid:hover {
+        background: #2e6ec4; }
   .modal-container .add-image {
     display: none; }
   .modal-container .login {

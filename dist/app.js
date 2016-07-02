@@ -50,6 +50,16 @@ function renderHome() {
     $('.login').css('display', 'flex');
   }
 
+  $emailInput.on('keyup', function(e){
+    var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (emailRegex.test($emailInput.val())) {
+      $loginBtn.addClass('valid');
+    } else {
+      $loginBtn.removeClass('valid');
+    }
+  });
+
+
   $loginBtn.on('click', function(){
     var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (emailRegex.test($emailInput.val())) {
@@ -60,6 +70,7 @@ function renderHome() {
       $('.modal').css('display', 'none');
     } else {
       // INVALID EMAIL
+      $('.login.modal').effect( "shake" );
     }
   });
 

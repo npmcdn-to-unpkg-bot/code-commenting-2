@@ -302,7 +302,6 @@ ul.albums-grid {
       outline: none;
     }
     button {
-      // margin-top: 3vh;
       background: $navColor;
       border: 0;
       border-bottom-right-radius: 5px;
@@ -312,7 +311,13 @@ ul.albums-grid {
       padding: 3vh;
       &:hover {
         cursor: pointer;
-        background: darken($navColor,10%);
+        background: $likedColor;
+      }
+    }
+    .valid {
+      background: $navColor;
+      &:hover {
+        background: darken($navColor,5%);
       }
     }
   }
@@ -321,7 +326,6 @@ ul.albums-grid {
   }
   .login {
     display: none;
-    // width: 50%;
     form {
       display: flex;
       input {
