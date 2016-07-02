@@ -51,16 +51,13 @@ ul.albums-grid {
     background: url("assets/images/album-0/p1.jpeg") no-repeat;
     background-size: cover;
     border: 0;
-    border-radius: 2px; }
+    border-radius: 2px;
+    background-position: center;
+    overflow: hidden;
+    transition: all 0.2s ease; }
 
-.album:hover {
-  padding-right: 0;
-  padding-left: 0;
-  padding-bottom: 0;
-  transition: padding 200ms; }
-  .album:hover .album-meta {
-    margin: 0 1vw;
-    transition: margin 200ms; }
+.image-container:hover {
+  transform: scale(1.05); }
 
 .album-meta {
   display: flex;
@@ -151,20 +148,31 @@ ul.albums-grid {
     padding: 0; }
 
 .image-page main {
-  background: #241A18;
+  background: #F5F5F5;
   height: 100vh;
   width: 100vw;
   overflow: hidden; }
+.image-page button {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 3vh;
+  background: none;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  z-index: 2;
+  outline: none; }
+  .image-page button i {
+    margin-right: 10px; }
+  .image-page button:hover {
+    color: #3b7bd1; }
 
 .slider {
+  display: flex;
+  align-items: center;
   position: relative;
-  height: 75vh;
-  width: 100%;
-  overflow: hidden; }
-
-.slider {
-  position: relative;
-  height: 75vh;
+  height: 100%;
   width: 100%;
   overflow: hidden; }
   .slider li {
@@ -189,17 +197,23 @@ ul.albums-grid {
     display: block;
     z-index: 0;
     left: -35%;
-    opacity: 0.5; }
+    opacity: 0.3; }
     .slider .prev img {
       position: absolute;
       right: 0; }
+    .slider .prev:hover {
+      opacity: 0.7;
+      cursor: pointer; }
   .slider .next {
     display: block;
     left: 85%;
-    opacity: 0.5; }
+    opacity: 0.3; }
     .slider .next img {
       position: absolute;
       left: 0; }
+    .slider .next:hover {
+      opacity: 0.7;
+      cursor: pointer; }
 
 .album-page, .image-page {
   display: none; }

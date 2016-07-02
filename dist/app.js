@@ -4,6 +4,30 @@ renderHome();
 // renderAlbum(1);
 // renderImage();
 
+if (location.hash !== '') {
+  gotoHash();
+}
+
+
+$(window).on('hashchange', gotoHash);
+
+function gotoHash() {
+  console.log('GO TO HASH');
+  var albumHash = location.hash.match(/album=.*?(?=&)/g);
+  var imageHash = location.hash.match(/image=.*?(?=&)/g);
+  if (imageHash !== null) {
+    albumHash = albumHash[0];
+    imageHash = imageHash[0];
+    albumIndex = albumHash.split('=')[1];
+    imageIndex = imageHash.split('=')[1];
+    renderImage(albumIndex, imageIndex);
+  } else if (albumHash !== null) {
+    albumHash = albumHash[0];
+    albumIndex = albumHash.split('=')[1];
+    renderAlbum(albumIndex);
+  }
+}
+
 
 function renderHome() {
   var $myAlbums = $('.myAlbumsPage');
@@ -34,7 +58,9 @@ function renderHome() {
 
     // event Listener
     $li.children('a').children('.image-container').on('click', function(e){
-      renderAlbum($(this).data().index);
+      // renderAlbum($(this).data().index);
+      location.hash = 'album=' + $(this).data().index + '&';
+      return false; // This prevents the anchor tag href to set the hash
     });
 
     $li.children('a').children('.album-meta').children('div').on('click', function(){
@@ -105,7 +131,6 @@ function renderAlbum(albumIndex) { // albumIndex is an object with index as a ke
 
     $sideLi.on('click', function(e){
       renderAlbum($(this).data().index);
-
     });
   });
 
@@ -119,7 +144,8 @@ function renderAlbum(albumIndex) { // albumIndex is an object with index as a ke
     $grid.masonry().append($image).masonry( 'appended', $image ).masonry();
 
     $image.on('click', function(e){
-      renderImage(albumIndex, $(this).data().index);
+      // renderImage(albumIndex, $(this).data().index);
+      location.hash = 'album=' + albumIndex + '&image=' + $(this).data().index + '&';
     });
   });
 
@@ -154,6 +180,7 @@ function renderImage(albumIndex, imageIndex) {
   $imagePage.css('display', 'flex'); // Display page
 
   var $slider = $('.slider');
+  var autoplay = false;
 
   var prevImageIndex = imageIndex-1;
   var nextImageIndex = imageIndex+1;
@@ -194,8 +221,13 @@ function renderImage(albumIndex, imageIndex) {
     }
   });
 
+  $('#backToAlbum').on('click', function(){
+    renderAlbum(albumIndex);
+  });
+
   $('.next').one('click', nextClickHandler);
   $('.prev').one('click', prevClickHandler);
+
 
   function nextClickHandler() {
     var $prev = $('.single_slide[data-index="' + (currentIndex-1) + '"]');
@@ -223,7 +255,6 @@ function renderImage(albumIndex, imageIndex) {
     $next.removeClass('next').addClass('curr');
 
     if (currentIndex+1 === data[albumIndex].images.length-1) {
-      console.log('LAST ONE');
       $newNext = $('.single_slide[data-index="' + '0' + '"]');
       currentIndex = -1;
     } else {
@@ -233,12 +264,10 @@ function renderImage(albumIndex, imageIndex) {
     $newNext.addClass('next').one('click', nextClickHandler);
   }
 
-
-
-
-
-
   function prevClickHandler() {
+    if (currentIndex === -1) {
+      currentIndex = 0;
+    }
     var $newPrev = $('.single_slide[data-index="' + (currentIndex-2) + '"]');
     var $prev = $('.single_slide[data-index="' + (currentIndex-1) + '"]');
     var $curr = $('.single_slide[data-index="' + currentIndex + '"]');
@@ -251,7 +280,6 @@ function renderImage(albumIndex, imageIndex) {
     $slider.children().removeClass('curr');
 
     if (currentIndex === 6) {
-      console.log('LAST ONE');
       $('.single_slide[data-index="' + '0' + '"]').removeClass('curr').addClass('next').one('click', nextClickHandler);
       $('.single_slide[data-index="' + '1' + '"]').removeClass('next');
       $('.single_slide[data-index="' + (data[albumIndex].images.length-1) + '"]').addClass('curr').removeClass('prev');
@@ -261,101 +289,24 @@ function renderImage(albumIndex, imageIndex) {
       $prev.removeClass('prev').addClass('curr');
       $curr.removeClass('curr').addClass('next').one('click', nextClickHandler);
       $next.removeClass('next');
-      $newPrev.addClass('prev').one('click', prevClickHandler);
     }
 
     if (currentIndex-1 ===  0) { // If the next image is 0
-      console.log('BEFORE FIRST ONE');
       $newPrev = $('.single_slide[data-index="' + (data[albumIndex].images.length-1) + '"]');
       currentIndex = data[albumIndex].images.length-1;
-      $newPrev.addClass('prev').one('click', prevClickHandler);
+      // $newPrev.addClass('prev').one('click', prevClickHandler);
     } else {
       currentIndex--;
     }
+    $newPrev.addClass('prev').one('click', prevClickHandler);
 
   }
 
-
-  // Slider functionality
-	// $slider.each(function() {
-  //   var autoplay = false;
-	// 	var easing = 'linear';
-	// 	var duration = 1000;
-	// 	var single_slide = $slider.find('.single_slide');
-	// 	var offset = ($(window).width()-1260)/2-1260; // HOW TO MAKE THIS RESPONSIVE?
-  //
-  //   $.each(single_slide, function(index) {
-	// 		if (index === 0) $(this).addClass('img' + single_slide.length);
-	// 		else $(this).addClass('img' + index);
-	// 	});
-  //
-  //   $slider.css({'width': single_slide.length*1260, 'left': offset});
-	// 	single_slide
-	// 	.eq(0).addClass('prev').end()
-	// 	.eq(1).addClass('active').end()
-	// 	.eq(2).addClass('next');
-  //
-  //   function moveLeft() {
-	// 		$('.active').removeClass('active').prev().addClass('active');
-  //     // DOESN'T WORK
-  //     $('.single_slide.active').children('img').animate({
-  //       'right': '50%',
-  //       'margin-right': -$('.single_slide.active img').width()/2
-  //     }, duration);
-  //
-	// 		$slider.animate({
-	// 			left: $slider.position().left+single_slide.outerWidth(true),
-	// 			easing: easing,
-	// 			step: 1
-	// 		}, duration, function() {
-	// 			$('.single_slide:last').detach().prependTo($slider);
-	// 			$slider.css('left', offset);
-	// 			newNav();
-	// 		});
-	// 	}
-  //
-  //   function moveRight() {
-	// 		$('.active').removeClass('active').next().addClass('active');
-  //     // WORKS FOR A LITTLE WHILE, but breaks after going through all images.
-  //     $('.single_slide.active').children('img').animate({
-  //       'left': '50%',
-  //       'margin-left': -$('.single_slide.active img').width()/2
-  //     }, duration);
-  //
-  //
-	// 		$slider.animate({
-	// 			left: $slider.position().left-single_slide.outerWidth(true),
-	// 			easing: easing,
-	// 			step: 1
-	// 		}, duration, function() {
-	// 			$('.single_slide:first').detach().appendTo($slider);
-	// 			$slider.css('left', offset);
-	// 			newNav();
-	// 		});
-	// 	}
-  //
-  //   function newNav() {
-  //
-	// 		$('.prev').removeClass('prev');
-	// 		$('.next').removeClass('next');
-	// 		$('.single_slide')
-	// 		.eq(0).addClass('prev').end()
-	// 		.eq(2).addClass('next');
-	// 	}
-  //
-  //   $(document).on('click', '.prev', function() {
-  //     moveLeft();
-  //   });
-  //
-	// 	$(document).on('click', '.next', function() { moveRight(); });
-  //
-	// 	if (autoplay === true) {
-	// 		setInterval(function() {
-	// 			moveRight();
-	// 		}, duration*2);
-	// 	}
-  //
-  // });
+  if (autoplay === true) {
+    setInterval(function() {
+      nextClickHandler();
+    }, 2000);
+  }
 }
 
 

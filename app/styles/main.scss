@@ -72,18 +72,15 @@ ul.albums-grid {
     background-size: cover;
     border: 0;
     border-radius: 2px;
+    background-position:center;
+    overflow: hidden;
+	  transition: all 0.2s ease;
   }
 }
 
-.album:hover {
-  padding-right: 0;
-  padding-left: 0;
-  padding-bottom: 0;
-  transition: padding 200ms;
-  .album-meta {
-    margin: 0 1vw;
-    transition: margin 200ms;
-  }
+
+.image-container:hover {
+  transform: scale(1.05);
 }
 
 
@@ -252,36 +249,40 @@ ul.albums-grid {
 
 .image-page {
   main {
-    background: #241A18;
+    background: $backgroundColor;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
   }
+  button {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 3vh;
+    background: none;
+    border: none;
+    color: $colorBlack;
+    cursor: pointer;
+    z-index: 2;
+    outline: none;
+    i {
+      margin-right: 10px;
+    }
+    &:hover {
+      color: $navColor;
+    }
+  }
 }
 
-.slider {
-  position: relative;
-  height: 75vh;
-  width: 100%;
-  overflow: hidden;
-}
-
-
-
-
 
 
 .slider {
+  display: flex;
+  align-items: center;
   position: relative;
-  height: 75vh;
+  height: 100%;
   width: 100%;
   overflow: hidden;
-  // list-style: none;
-  // display: block;
-  // width: 100vw;
-  // height: 100vh;
-  // overflow: hidden;
-  // position: relative;
   li {
     position: absolute;
     height: 100%;
@@ -308,70 +309,32 @@ ul.albums-grid {
     display: block;
     z-index: 0;
     left: -35%;
-    opacity: 0.5;
+    opacity: 0.3;
     img {
       position: absolute;
       right: 0;
+    }
+    &:hover {
+      opacity: 0.7;
+      cursor: pointer;
     }
   }
   .next {
     display: block;
     left: 85%;
-    opacity: 0.5;
+    opacity: 0.3;
     img {
       position: absolute;
       left: 0;
+    }
+    &:hover {
+      opacity: 0.7;
+      cursor: pointer;
     }
   }
 }
 
 
-
-// .slider .single_slide { // LI
-//     height: 90vh;
-//     float: left;
-//     display: block;
-//     margin: 0;
-//     padding: 0;
-//     border-radius: 0px;
-//     overflow: hidden;
-//     opacity: 0.15;
-//     width: 1260px;
-//     // width: 80vw;
-//     cursor: pointer;
-//     -webkit-transition: opacity 800ms ease-in-out;
-//     transition: opacity 800ms ease-in-out;
-//     img {
-//       height: 100%;
-//       display: block;
-//     }
-// }
-
-// .slider .single_slide.active {
-//     // background: gray;
-//     opacity: 1;
-//     cursor: default;
-//     -webkit-transition: opacity 800ms ease-in-out;
-//     transition: opacity 800ms ease-in-out;
-//     position: relative;
-//     img {
-//       position: absolute;
-//     }
-// }
-//
-// .prev {
-//   // background: red;
-//   img {
-//     float: right;
-//   }
-// }
-//
-// .next {
-//   // background: blue;
-//   img {
-//     // float: left;
-//   }
-// }
 
 .album-page, .image-page {
   display: none;
