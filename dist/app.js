@@ -6,6 +6,7 @@ if (location.hash.indexOf('album') !== -1) {
   renderHome();
 }
 
+// localStorage.clear();
 
 $(window).on('hashchange', gotoHash); // Hash change event
 
@@ -26,11 +27,6 @@ function gotoHash() {
   }
 }
 
-$('.dismiss').on('click', function(){
-  $modalContainer.css('display', 'none');
-  $('.modal').css('display', 'none');
-});
-
 
 function renderHome() {
   var $modalContainer = $('.modal-container');
@@ -41,6 +37,7 @@ function renderHome() {
   var $myAlbums = $('.myAlbumsPage');
   var $albumPage = $('.album-page');
   var $imagePage = $('.image-page');
+
   $myAlbums.css('display', 'block'); // Removes the page before it.
   $imagePage.css('display', 'none'); // Removes the page after it.
   $albumPage.css('display', 'none'); // Display this page
@@ -48,10 +45,7 @@ function renderHome() {
   var $albumsGrid = $('.albums-grid');
   $albumsGrid.empty();
 
-  if (sessionStorage.email) {
-    console.log('EMAIL FOUND');
-    console.log($modalContainer);
-  } else {
+  if (!sessionStorage.email) {
     $modalContainer.css('display', 'flex');
     $('.login').css('display', 'flex');
   }
@@ -77,6 +71,21 @@ function renderHome() {
     $modalContainer.css('display', 'flex');
     $('.login').css('display', 'flex');
   });
+
+  var allAlbumNames = [];
+  data.forEach(function(album) {
+    allAlbumNames.push(album.title);
+  });
+
+  if(window.localStorage && localStorage.albums) { // If the user has albums saved.
+    var albumsArray = localStorage.getItem('albums');
+    albumsArray = JSON.parse(albumsArray);
+    albumsArray.forEach(function(album) {
+      if (allAlbumNames.indexOf(album.title) === -1) {
+        data.push(album);
+      }
+    });
+  }
 
   data.forEach(function(album, i) {
     var liHTML = '<li class="album"><a href="#"><div class="album-meta"><div><i class="fa fa-heart" aria-hidden="true"></i><i class="fa fa-heart-o" aria-hidden="true"></i><p class="likes">0</p></div><h5 class="Album title">Album Title</h5></div><div class="image-container"></div></a></li>';
@@ -112,8 +121,85 @@ function renderHome() {
       $(this).children('p').text(data[albumIndex].likes);
     });
   });
+
+
   var newAlbumHTML = '<li class="new-album"><div><i class="fa fa-plus" aria-hidden="true"></i><h3>New Album</h3></div></li>';
   $albumsGrid.append($(newAlbumHTML));
+
+  var $newAlbum = $('.new-album');
+
+
+
+
+
+
+
+
+
+  $newAlbum.on('click',function(){
+    $modalContainer.css('display', 'flex');
+    $('.create-album').css('display', 'flex');
+    var $submitBtn = $('#album-submit');
+
+    var $albumName = $('.album-name');
+    var $imageInput = $('#album-first-image');
+
+    $submitBtn.on('click', function(){
+      if ($albumName.val() !== '' && $imageInput.val() !== '') {
+        var imageURL = $imageInput.val();
+        var albumName = $albumName.val();
+
+        if(window.localStorage) {
+          if (localStorage.albums) { // If albums have been stored
+            var albumsArray = localStorage.getItem('albums');
+            albumsArray = JSON.parse(albumsArray);
+            var albumAlreadyExists = false;
+            albumsArray.forEach(function(album){
+              if (album.title === albumName) { albumAlreadyExists = true; }
+            });
+            if (!albumAlreadyExists) {
+              var newAlbumObject = {
+                title: albumName,
+                likes: 0,
+                images: [imageURL]
+              };
+              albumsArray.push(newAlbumObject);
+              localStorage.setItem('albums', JSON.stringify(albumsArray));
+              // Render home with the new album
+              renderHome();
+            } else {
+              throw new Error('This album already exists');
+            }
+          } else {
+            var albumObject = {
+              title: albumName,
+              images: [imageURL]
+            };
+            var albums = [albumObject];
+            localStorage.setItem('albums', JSON.stringify(albums));
+          }
+        }
+        $modalContainer.css('display', 'none');
+        $('.modal').css('display', 'none');
+      }
+    });
+
+
+
+
+
+    $('.dismiss').one('click', function(){
+      $modalContainer.css('display', 'none');
+      $('.modal').css('display', 'none');
+    });
+
+    $modalContainer.one('click', function(e){
+      if ($(e.target).hasClass('modal-container')) {
+        $modalContainer.css('display', 'none');
+        $('.modal').css('display', 'none');
+      }
+    });
+  });
 }
 
 
@@ -124,7 +210,8 @@ function renderHome() {
 
 
 
-function renderAlbum(albumIndex) { // albumIndex is an object with index as a key
+
+function renderAlbum(albumIndex) { // albumIndex is a data object with index as a key
   var $modalContainer = $('.modal-container');
   var albumName = data[albumIndex].title;
   var $myAlbums = $('.myAlbumsPage');
@@ -141,6 +228,11 @@ function renderAlbum(albumIndex) { // albumIndex is an object with index as a ke
     }
   });
 
+  $('.dismiss').on('click', function() {
+    $modalContainer.css('display', 'none');
+    $('.modal').css('display', 'none');
+  });
+
   var $sideUl = $('.side-bar div').children('ul');
   $('.album-title').text(data[albumIndex].title); // Set the title
   $('.side-bar a').on('click', function() {
@@ -151,10 +243,7 @@ function renderAlbum(albumIndex) { // albumIndex is an object with index as a ke
     // options
     itemSelector: '.grid-item',
     columnWidth: ($('.grid').width()/4)-10 // I need this to be the same as calc(100%/4)
-    // gutter: 10
   });
-
-  // console.log($grid.width());
 
   var gridItems = $grid.masonry('getItemElements');
 
@@ -162,9 +251,7 @@ function renderAlbum(albumIndex) { // albumIndex is an object with index as a ke
     $grid.masonry( 'remove', item );
   });
 
-  // $grid.empty();
   $sideUl.empty();
-
 
   data.forEach(function(album, i){
     var sideLiHTML = '<li class="album-link"><a href="#">' + album.title + '</a></li>';
@@ -178,11 +265,19 @@ function renderAlbum(albumIndex) { // albumIndex is an object with index as a ke
     });
   });
 
-  if(window.localStorage) { // If the browser supports localstorage
-    if (localStorage[albumName]) { // If localstorage contains this album
-      var savedAlbum = localStorage.getItem(albumName); // Get the album object
-      savedAlbum = JSON.parse(savedAlbum); // Parse it with JSON
-      savedAlbum[0].images.forEach(function(imgURL, i) { // Loop through the images array inside it
+  if(window.localStorage && localStorage.albums) { // If the browser supports localstorage
+    var albumsArray = localStorage.getItem('albums'); // Get the album object
+    albumsArray = JSON.parse(albumsArray); // Parse it with JSON
+    var localAlbumIndex = 0;
+    var savedAlbumExists = false;
+    albumsArray.forEach(function(album, i){
+      if (album.title === albumName) {
+        localAlbumIndex = i;
+        savedAlbumExists = true;
+      }
+    });
+    if (savedAlbumExists) {
+      albumsArray[localAlbumIndex].images.forEach(function(imgURL, i) { // Loop through the images array inside it
         if (data[albumIndex].images.indexOf(imgURL) === -1) { // If our data doesn't already have the image
           data[albumIndex].images.push(imgURL); // Add the image to the existing data object.
         }
@@ -191,20 +286,24 @@ function renderAlbum(albumIndex) { // albumIndex is an object with index as a ke
   }
 
   $('.album-link:nth-child(' + (albumIndex+1) + ')').addClass('selected'); // Select our current album
+
+
   data[albumIndex].images.forEach(function(image, i){
+    appendImage(image, i);
+  });
+
+  function appendImage(image, i) {
     var imageHTML = '<div class="grid-item"><img src="' + image + '" alt="" <img/></div>';
     var $image = $(imageHTML);
     $image.attr('data-index', i);
     $image.css('width', ($('.grid').width()/4)-10 + 'px');
     $grid.masonry().append($image).masonry( 'appended', $image ).masonry();
 
+    $image.unbind('click');
     $image.on('click', function(e){
-      // renderImage(albumIndex, $(this).data().index);
       location.hash = 'album=' + albumIndex + '&image=' + $(this).data().index + '&';
     });
-  });
-
-
+  }
 
   $grid.imagesLoaded().progress( function() {
     $grid.masonry('layout'); // Layout images after they have been loaded
@@ -215,35 +314,49 @@ function renderAlbum(albumIndex) { // albumIndex is an object with index as a ke
     $addImageModal.css('display', 'flex');
   });
 
+  $(".submit").unbind('click');
   $('.submit').on('click', function(){
-    // console.log('added image');
+    console.log('CLICKED SUBMIT');
     var imgURL = $('.image-url').val();
+    var albumObject = {
+      title: albumName,
+      likes: 0,
+      images: [imgURL]
+    };
+    console.log(albumObject);
 
-
-    if(window.localStorage) {
-      console.log(albumName);
-      if (localStorage[albumName]) {
+    if(window.localStorage && localStorage.albums) {
         console.log('Album already exists');
-        var retrievedObject = localStorage.getItem(albumName);
-        console.log('retrievedObject: ', JSON.parse(retrievedObject));
+        var albumsArray = localStorage.getItem('albums');
+        albumsArray = JSON.parse(albumsArray);
+        var savedAlbumExists = false;
+        var savedAlbumIndex = 0;
+
+        albumsArray.forEach(function(album, i){
+          if (album.title === albumName) {
+            savedAlbumExists = true;
+            savedAlbumIndex = i;
+          }
+        });
+        if (savedAlbumExists) {
+          albumsArray[savedAlbumIndex].images.push(imgURL);
+          localStorage.setItem('albums', JSON.stringify(albumsArray));
+        } else {
+          albumsArray.push(albumObject);
+          localStorage.setItem('albums', JSON.stringify(albumsArray));
+        }
+
       } else {
         console.log('Creating new Album file');
-        var albumObject = {images: [imgURL]};
         var albums = [albumObject];
-        localStorage.setItem(albumName, JSON.stringify(albums));
+        localStorage.setItem('albums', JSON.stringify(albums));
       }
-    } else {
-      // If local storage is unsupported. We add it normally.
-      data[albumIndex].images.push(imgURL);
-      var newImageHTML = '<div class="grid-item"><img src="' + imgURL + '" alt="" <img/></div>';
-      var $newImage = $(newImageHTML);
-      $newImage.attr('data-index', data[albumIndex].images.length-1);
-      $newImage.css('width', ($('.grid').width()/4)-10 + 'px');
-      $grid.masonry().append($newImage).masonry( 'appended', $newImage ).masonry();
-    }
-
     $modalContainer.css('display', 'none');
-    $addImageModal.css('display', 'none');
+    $('.modal').css('display', 'none');
+    appendImage(imgURL, data[albumIndex].images.length-1);
+    $grid.imagesLoaded().progress( function() {
+      $grid.masonry('layout'); // Layout images after they have been loaded
+    });
   });
 }
 
@@ -388,12 +501,10 @@ function renderImage(albumIndex, imageIndex) {
     if (currentIndex-1 ===  0) { // If the next image is 0
       $newPrev = $('.single_slide[data-index="' + (data[albumIndex].images.length-1) + '"]');
       currentIndex = data[albumIndex].images.length-1;
-      // $newPrev.addClass('prev').one('click', prevClickHandler);
     } else {
       currentIndex--;
     }
     $newPrev.addClass('prev').one('click', prevClickHandler);
-
   }
 
   if (autoplay === true) {
@@ -402,16 +513,3 @@ function renderImage(albumIndex, imageIndex) {
     }, 2000);
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-//

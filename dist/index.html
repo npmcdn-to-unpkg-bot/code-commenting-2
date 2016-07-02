@@ -75,6 +75,7 @@
     </div>
 
     <div class="modal-container">
+
       <div class="add-image modal">
         <div class="description">
           <h3>Paste image URL</h3>
@@ -83,6 +84,7 @@
         <input class="image-url" type="text" name="name" value="" autofocus>
         <button class="submit" type="button" name="button">Submit</button>
       </div>
+
       <div class="login modal">
         <div class="description">
           <h3>Login</h3>
@@ -94,6 +96,22 @@
           <button id="email-submit" class="submit" type="button" name="button">Login</button>
         </form>
       </div>
+
+      <div class="create-album modal">
+        <div class="description">
+          <h3>Create new Album</h3>
+          <a class="dismiss" href="#"><i class="fa fa-times-circle-o" aria-hidden="true"></i></a>
+        </div>
+        <form class="album-form">
+          <!-- <label for="email-input"><i class="fa fa-envelope-o" aria-hidden="true"></i></label> -->
+          <input class="album-name" type="email" name="name" value="" autofocus placeholder="Album Name">
+          <p>First image URL</p>
+          <input id="album-first-image" class="image-url" type="email" name="name" value="" autofocus placeholder="Image Address">
+          <button id="album-submit" class="submit" type="button" name="button">Create Album</button>
+        </form>
+      </div>
+
+
     </div>
 
 

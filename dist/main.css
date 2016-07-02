@@ -179,6 +179,9 @@ ul.albums-grid {
     background: #F5F5F5;
     border: 0;
     border-radius: 5px; }
+    .modal-container .modal form p {
+      color: #9C9C9C;
+      padding-left: 2vh; }
     .modal-container .modal div {
       display: flex;
       justify-content: space-between;
@@ -226,6 +229,11 @@ ul.albums-grid {
         border-bottom-right-radius: 5px;
         border-bottom-left-radius: 0;
         background-color: #9e9e9e; }
+  .modal-container .create-album form {
+    display: flex;
+    flex-direction: column; }
+    .modal-container .create-album form input:first-child {
+      border-bottom: 5px solid #F5F5F5; }
 
 .image-page main {
   background: #F5F5F5;
