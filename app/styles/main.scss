@@ -2,12 +2,11 @@ $colorBlack: #000;
 $textColor: #9C9C9C;
 $likedColor: #FE5151;
 $backgroundColor: #F5F5F5;
-// $navColor: #3b7bd1;
-$navColor: #239feb;
+// $primaryColor: #3b7bd1;
+$primaryColor: #239feb;
 
 body {
   background: $backgroundColor;
-  // position: relative;
 }
 
 ul {
@@ -34,7 +33,7 @@ h1,h2,h3,h4,h5 {
       justify-content: space-between;
       align-items: center;
       padding: 2.5vh 5vw;
-      background: $navColor;
+      background: $primaryColor;
       color: #fff;
       button {
         background: none;
@@ -70,7 +69,7 @@ ul.albums-grid {
   padding: 1vw;
   box-sizing: border-box;
   .image-container {
-    height: 15vw;
+    height: 25vh;
     background: url('assets/images/album-0/p1.jpeg') no-repeat;
     background-size: cover;
     border: 0;
@@ -127,10 +126,10 @@ ul.albums-grid {
 
 .new-album {
   margin: 50px 0;
-  height: 16.5vw;
   padding: 1vw;
   div {
-    height: 100%;
+    // height: 100%;
+    height: 25vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -143,8 +142,8 @@ ul.albums-grid {
     }
     &:hover {
       cursor: pointer;
-      border: 3px dashed $navColor;
-      color: $navColor;
+      border: 3px dashed $primaryColor;
+      color: $primaryColor;
     }
   }
 
@@ -181,16 +180,16 @@ ul.albums-grid {
     justify-content: space-between;
     width: 18vw;
     height: 100vh;
-    background: $navColor;
+    background: $primaryColor;
     position: fixed;
     box-sizing: border-box;
     div {
       h3 {
         color: #fff;
         padding: 4vh 1vw;
-        background: darken($navColor, 10%);
+        background: darken($primaryColor, 10%);
         &:hover {
-          background: darken($navColor, 7%);
+          background: darken($primaryColor, 7%);
           cursor: pointer;
         }
         i {
@@ -210,18 +209,18 @@ ul.albums-grid {
           }
         }
         .selected {
-          background: darken($navColor, 5%);
+          background: darken($primaryColor, 5%);
         }
       }
     }
     button {
       border: none;
-      background: darken($navColor, 10%);
+      background: darken($primaryColor, 10%);
       color: #fff;
       padding: 3vh 0;
       outline: none;
       &:hover {
-        background: darken($navColor, 7%);
+        background: darken($primaryColor, 7%);
         cursor: pointer;
       }
     }
@@ -292,7 +291,7 @@ ul.albums-grid {
       margin-right: 10px;
     }
     &:hover {
-      color: $navColor;
+      color: $primaryColor;
     }
   }
 }
@@ -324,7 +323,7 @@ ul.albums-grid {
       transition: 150ms;
       color: #fff;
       &:hover {
-        background-color: $navColor;
+        background-color: $primaryColor;
         color: #fff;
       }
     }
@@ -397,6 +396,9 @@ ul.albums-grid {
 
 
 
+
+
+
 .modal-container {
   position: absolute;
   display: none;
@@ -455,9 +457,9 @@ ul.albums-grid {
       }
     }
     .valid {
-      background: $navColor;
+      background: $primaryColor;
       &:hover {
-        background: darken($navColor,5%);
+        background: darken($primaryColor,5%);
       }
     }
   }
@@ -473,7 +475,7 @@ ul.albums-grid {
       }
       label {
         padding: 2vh;
-        background: $navColor;
+        background: $primaryColor;
         color: #fff;
         font-size: 2rem;
         height: 100%;
@@ -559,36 +561,90 @@ ul.albums-grid {
           border: 5px solid darken(#4a4a4a, 15%);
         }
       }
-      .white { background: #fff; }
-      .black { background: #000; }
-      .gray { background: gray; }
-      .blue { background: $navColor; }
-      .purple { background: #7D60EC; }
-      .pink { background: #FD51D9; }
-      .orange { background: #FD7850; }
-      .green { background: #27CC6A; }
-      #done-btn {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 1vw;
-        height: 1vw;
-        // padding: 0;
-        right: 0;
-        i {
-          transform: translateY(-50%);
-        }
-        &:hover {
-          background-color: $likedColor;
-        }
-      }
+      .color1 { background: #fff; }
+      .color2 { background: #000; }
+      .color3 { background: gray; }
+      .color4 { background: $primaryColor; }
+      .color5 { background: #7D60EC; }
+      .color6 { background: #FD51D9; }
+      .color7 { background: #FD7850; }
+      .color8 { background: #27CC6A; }
     }
+  }
+}
+
+#done-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1vw;
+  height: 1vw;
+  // padding: 0;
+  right: 0;
+  i {
+    transform: translateY(-50%);
+  }
+  &:hover {
+    background-color: $likedColor;
   }
 }
 
 #picker_done {
   &:hover {
   // The color picker Library used, uses inline styles that it won't let me overwrite. So using !important here is necessary.
-  background: $navColor !important;
+  background: $primaryColor !important;
+  }
+}
+
+@media (max-width: 1110px) {
+  .modal-container .canvas .tools {
+    .color8 {display: none;}
+  }
+}
+@media (max-width: 1025px) {
+  .modal-container .canvas .tools {
+    .color7 {display: none;}
+  }
+}
+@media (max-width: 900px) {
+  .modal-container .canvas .tools {
+    .color6 {display: none;}
+  }
+  .albums-grid li {
+    width: calc(100%/3);
+  }
+}
+@media (max-width: 800px) {
+  .modal-container .canvas .tools {
+    .color5 {display: none;}
+  }
+}
+@media (max-width: 725px) {
+  .modal-container .canvas .tools {
+    .color4 {display: none;}
+  }
+  .albums-grid li {
+    width: calc(100%/2);
+  }
+}
+@media (max-width: 650px) {
+  .modal-container .canvas .tools {
+    .color3 {display: none;}
+  }
+}
+@media (max-width: 560px) {
+  .modal-container .canvas .tools {
+    .color2 {display: none;}
+  }
+  .albums-grid li {
+    width: 100%;
+    .image-container {
+      height: 40vh;
+    }
+  }
+  .new-album {
+    div {
+      height: 40vh;
+    }
   }
 }
