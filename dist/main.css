@@ -238,6 +238,60 @@ ul.albums-grid {
     flex-direction: column; }
     .modal-container .create-album form input:first-child {
       border-bottom: 5px solid #F5F5F5; }
+  .modal-container .canvas {
+    z-index: 100;
+    width: 100%;
+    background: transparent; }
+    .modal-container .canvas .done-btn {
+      background: #3b7bd1;
+      position: absolute;
+      top: 0;
+      right: 0;
+      border-bottom-right-radius: 0; }
+    .modal-container .canvas canvas {
+      margin: 0 auto; }
+    .modal-container .canvas .tools {
+      position: absolute;
+      bottom: 0;
+      width: 100vw;
+      background: #4a4a4a;
+      display: flex;
+      justify-content: center;
+      padding: 3vh 0; }
+      .modal-container .canvas .tools .tool {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        height: 1vw;
+        width: 1vw;
+        margin: 0 1vw;
+        background: #646464;
+        border: 5px solid #4a4a4a; }
+        .modal-container .canvas .tools .tool i {
+          transform: translateY(-45%); }
+        .modal-container .canvas .tools .tool:hover {
+          border: 5px solid #313131; }
+        .modal-container .canvas .tools .tool:active {
+          background-color: #4a4a4a; }
+      .modal-container .canvas .tools .active {
+        border: 5px solid #242424; }
+      .modal-container .canvas .tools .white {
+        background: #fff; }
+      .modal-container .canvas .tools .black {
+        background: #000; }
+      .modal-container .canvas .tools .gray {
+        background: gray; }
+      .modal-container .canvas .tools .blue {
+        background: #3b7bd1; }
+      .modal-container .canvas .tools .purple {
+        background: #7D60EC; }
+      .modal-container .canvas .tools .pink {
+        background: #FD51D9; }
+      .modal-container .canvas .tools .orange {
+        background: #FD7850; }
+      .modal-container .canvas .tools .green {
+        background: #27CC6A; }
 
 .image-page main {
   background: #F5F5F5;

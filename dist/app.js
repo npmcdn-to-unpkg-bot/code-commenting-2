@@ -465,6 +465,17 @@ function renderImage(albumIndex, imageIndex) {
     }
   });
 
+  $('.edit-btn').on('click', function(){
+    var $canvas = $('.canvas');
+    $('.modal-container').css('display', 'flex');
+    $canvas.css('display', 'flex');
+    var imageWidth = $('.curr').children('img').width();
+    var imageHeight = $('.curr').children('img').height();
+    $canvas.children('canvas').css('width', imageWidth);
+    $canvas.children('canvas').css('height', imageHeight);
+    setUpCanvas();
+  });
+
   $('#backToAlbum').on('click', function(){
     // renderAlbum(albumIndex);
     location.hash = 'album=' + albumIndex + '&';
@@ -559,61 +570,92 @@ function renderImage(albumIndex, imageIndex) {
 
 
 
+var fillColor = '#ddd';
+var radius = 5;
+var tool = 'brush';
 
 function setUpCanvas() {
-  // var canvas = $('.curr').children('canvas');
-  // console.log(va);
+  var $white = $('.white');
+  var $black = $('.black');
+  var $gray = $('.gray');
+  var $blue = $('.blue');
+  var $purple = $('.purple');
+  var $pink = $('.pink');
+  var $orange = $('.orange');
+  var $green = $('.green');
+  var $smaller = $('.smaller');
+  var $bigger = $('.bigger');
+  var $eraser = $('.eraser');
+  var $tools = $('.tools');
+  var $color = $('.color');
+
+  $doneBtn = $('.done-btn');
+  var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext('2d');
 
-  //Variables
-  var canvasx = $(canvas).offset().left;
-  var canvasy = $(canvas).offset().top;
-  var last_mousex = 0;
-  var last_mousey = 0;
-  var mousex = 0;
-  var mousey = 0;
-  var mousedown = false;
-  var tooltype = 'draw';
-
-  //Mousedown
-  $(canvas).on('mousedown', function(e) {
-    last_mousex = mousex = parseInt(e.clientX-canvasx);
-  	last_mousey = mousey = parseInt(e.clientY-canvasy);
-    mousedown = true;
+  $doneBtn.on('click',function(){
+    $('.modal-container').css('display', 'none');
+    $('.canvas').css('display', 'none');
   });
 
-  //Mouseup
-  $(canvas).on('mouseup', function(e) {
-    mousedown = false;
-  });
-
-  //Mousemove
-  $(canvas).on('mousemove', function(e) {
-    mousex = parseInt(e.clientX-canvasx);
-    mousey = parseInt(e.clientY-canvasy);
-    if(mousedown) {
-      ctx.beginPath();
-      if(tooltype=='draw') {
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.strokeStyle = 'black';
-        ctx.lineWidth = 3;
-      } else {
-        ctx.globalCompositeOperation = 'destination-out';
-        ctx.lineWidth = 10;
-      }
-      ctx.moveTo(last_mousex,last_mousey);
-      ctx.lineTo(mousex,mousey);
-      ctx.lineJoin = ctx.lineCap = 'round';
-      ctx.stroke();
+  $tools.children().unbind('click');
+  $tools.children().on('click', function(){
+    if (!$(this).hasClass('smaller') && !$(this).hasClass('bigger')) {
+      $tools.children().removeClass('active');
+      $(this).addClass('active');
     }
-    last_mousex = mousex;
-    last_mousey = mousey;
-    //Output
-    $('#output').html('current: '+mousex+', '+mousey+'<br/>last: '+last_mousex+', '+last_mousey+'<br/>mousedown: '+mousedown);
   });
 
-  //Use draw | erase
-  use_tool = function(tool) {
-    tooltype = tool; //update
+  $color.on('click',function(){
+    fillColor = $(this).css('backgroundColor');
+    tool = 'brush';
+  });
+
+  $eraser.on('click',function(){
+    tool = 'eraser';
+  });
+
+  // define a custom fillCircle method
+  ctx.fillCircle = function(x, y, radius, fillColor) {
+    ctx.globalCompositeOperation="source-over";
+    this.fillStyle = fillColor;
+    this.beginPath();
+    this.moveTo(x, y);
+    this.arc(x, y, radius, 0, Math.PI * 2, false);
+    this.fill();
+  };
+
+  ctx.eraseCircle = function(x, y, radius, fillColor) {
+    ctx.globalCompositeOperation="destination-out";
+    this.beginPath();
+    this.moveTo(x, y);
+    this.arc(x, y, radius, 0, Math.PI * 2, false);
+    this.fill();
+  };
+
+  var rect = canvas.getBoundingClientRect();
+  // bind mouse events
+  canvas.onmousemove = function(e) {
+      if (!canvas.isDrawing) {
+         return;
+      }
+      var x = (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+      var y = (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+      if (tool === 'brush') {
+        ctx.fillCircle(x, y, radius, fillColor);
+      } else if (tool === 'eraser') {
+        ctx.eraseCircle(x, y, radius);
+        // console.log('ERASER');
+        // ctx.globalCompositeOperation="destination-out";
+        // ctx.arc(x, y, radius, 0, Math.PI * 2, false);
+        // ctx.fill();
+      }
+
+  };
+  canvas.onmousedown = function(e) {
+      canvas.isDrawing = true;
+  };
+  canvas.onmouseup = function(e) {
+      canvas.isDrawing = false;
   };
 }
