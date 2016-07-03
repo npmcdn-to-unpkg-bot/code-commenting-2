@@ -306,7 +306,6 @@ function renderAlbum(albumIndex) { // albumIndex is a data object with index as 
 
   $('.album-link:nth-child(' + (Number(albumIndex)+1) + ')').addClass('selected'); // Select our current album
 
-
   data[albumIndex].images.forEach(function(image, i){
     appendImage(image, i);
   });
@@ -337,45 +336,50 @@ function renderAlbum(albumIndex) { // albumIndex is a data object with index as 
   $('.submit').on('click', function(){
     console.log('CLICKED SUBMIT');
     var imgURL = $('.image-url').val();
-    var albumObject = {
-      title: albumName,
-      likes: 0,
-      images: [imgURL]
-    };
-    console.log(albumObject);
 
-    if(window.localStorage && localStorage.albums) {
-        console.log('Album already exists');
-        var albumsArray = localStorage.getItem('albums');
-        albumsArray = JSON.parse(albumsArray);
-        var savedAlbumExists = false;
-        var savedAlbumIndex = 0;
+    if (imgURL !== '') {
+      var albumObject = {
+        title: albumName,
+        likes: 0,
+        images: [imgURL]
+      };
+      console.log(albumObject);
 
-        albumsArray.forEach(function(album, i){
-          if (album.title === albumName) {
-            savedAlbumExists = true;
-            savedAlbumIndex = i;
+      if(window.localStorage && localStorage.albums) {
+          console.log('Album already exists');
+          var albumsArray = localStorage.getItem('albums');
+          albumsArray = JSON.parse(albumsArray);
+          var savedAlbumExists = false;
+          var savedAlbumIndex = 0;
+
+          albumsArray.forEach(function(album, i){
+            if (album.title === albumName) {
+              savedAlbumExists = true;
+              savedAlbumIndex = i;
+            }
+          });
+          if (savedAlbumExists) {
+            albumsArray[savedAlbumIndex].images.push(imgURL);
+            localStorage.setItem('albums', JSON.stringify(albumsArray));
+          } else {
+            albumsArray.push(albumObject);
+            localStorage.setItem('albums', JSON.stringify(albumsArray));
           }
-        });
-        if (savedAlbumExists) {
-          albumsArray[savedAlbumIndex].images.push(imgURL);
-          localStorage.setItem('albums', JSON.stringify(albumsArray));
-        } else {
-          albumsArray.push(albumObject);
-          localStorage.setItem('albums', JSON.stringify(albumsArray));
-        }
 
-      } else {
-        console.log('Creating new Album file');
-        var albums = [albumObject];
-        localStorage.setItem('albums', JSON.stringify(albums));
-      }
-    $modalContainer.css('display', 'none');
-    $('.modal').css('display', 'none');
-    appendImage(imgURL, data[albumIndex].images.length-1);
-    $grid.imagesLoaded().progress( function() {
-      $grid.masonry('layout'); // Layout images after they have been loaded
-    });
+        } else {
+          console.log('Creating new Album file');
+          var albums = [albumObject];
+          localStorage.setItem('albums', JSON.stringify(albums));
+        }
+      $modalContainer.css('display', 'none');
+      $('.modal').css('display', 'none');
+      appendImage(imgURL, data[albumIndex].images.length-1);
+      $grid.imagesLoaded().progress( function() {
+        $grid.masonry('layout'); // Layout images after they have been loaded
+      });
+    } else {
+      $('.add-image').effect('shake');
+    }
   });
 }
 
@@ -435,11 +439,11 @@ function renderImage(albumIndex, imageIndex) {
 
   // Add all other images
   data[albumIndex].images.forEach(function(image, i){
-    if (i !== imageIndex && i !== prevImageIndex) {
+    if (i !== Number(imageIndex) && i !== Number(prevImageIndex)) {
       var imageHTML = '<li><img src="' + data[albumIndex].images[i] + '" alt="" /></li>';
       $image = $(imageHTML);
       $image.addClass('single_slide');
-      if (i === imageIndex+1) {
+      if (i === (Number(imageIndex)+1)) {
         $image.addClass('next');
       }
       $image.attr('data-index', i);
@@ -449,6 +453,7 @@ function renderImage(albumIndex, imageIndex) {
 
   $('#backToAlbum').on('click', function(){
     renderAlbum(albumIndex);
+    $slider.empty();
   });
 
   $('.next').one('click', nextClickHandler);
@@ -456,10 +461,11 @@ function renderImage(albumIndex, imageIndex) {
 
 
   function nextClickHandler() {
-    var $prev = $('.single_slide[data-index="' + (currentIndex-1) + '"]');
+    console.log('next');
+    var $prev = $('.single_slide[data-index="' + (Number(currentIndex)-1) + '"]');
     var $curr = $('.single_slide[data-index="' + currentIndex + '"]');
-    var $next = $('.single_slide[data-index="' + (currentIndex+1) + '"]');
-    var $newNext = $('.single_slide[data-index="' + (currentIndex+2) + '"]');
+    var $next = $('.single_slide[data-index="' + (Number(currentIndex)+1) + '"]');
+    var $newNext = $('.single_slide[data-index="' + (Number(currentIndex)+2) + '"]');
 
     // Removes all event handlers from other images.
     $slider.children().off();
@@ -469,15 +475,19 @@ function renderImage(albumIndex, imageIndex) {
       $('.single_slide[data-index="' + (data[albumIndex].images.length-1) + '"]').removeClass('curr').addClass('prev').one('click', prevClickHandler);
       $('.single_slide[data-index="' + (data[albumIndex].images.length-2) + '"]').removeClass('prev');
     } else if (currentIndex === 0) {
+      console.log('currentIndex is 0');
       $('.single_slide[data-index="' + '0' + '"]').removeClass('curr').addClass('prev').one('click', prevClickHandler);
       $('.single_slide[data-index="' + (data[albumIndex].images.length-1) + '"]').removeClass('prev');
     } else {
+      console.log('ELSE');
+      console.log('PREV', $prev);
+      console.log('CURR', $curr);
       $prev.removeClass('prev');
       $curr.removeClass('curr');
       $curr.addClass('prev');
       $curr.one('click', prevClickHandler);
     }
-
+    console.log('NEXT', $next);
     $next.removeClass('next').addClass('curr');
 
     if (currentIndex+1 === data[albumIndex].images.length-1) {
