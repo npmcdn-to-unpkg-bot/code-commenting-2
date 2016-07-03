@@ -383,6 +383,34 @@ ul.albums-grid {
           margin: 0; }
         .modal-container .canvas .tools .filters:hover {
           border: 5px solid #242424; }
+      .modal-container .canvas .tools .hint {
+        position: absolute;
+        bottom: 15vh;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #646464;
+        color: #fff;
+        border: 0;
+        border-radius: 3px; }
+        .modal-container .canvas .tools .hint::after {
+          content: '';
+          position: absolute;
+          bottom: -20px;
+          left: 20px;
+          border-top: 20px solid #646464;
+          border-left: 20px solid transparent;
+          border-right: 20px solid transparent; }
+        .modal-container .canvas .tools .hint p {
+          padding: 1vh;
+          margin: 0 2vw; }
+        .modal-container .canvas .tools .hint button {
+          border-top-right-radius: 3px;
+          border-bottom-right-radius: 3px;
+          border-bottom-left-radius: 0;
+          background: #239feb;
+          height: 100%; }
+          .modal-container .canvas .tools .hint button:hover {
+            background: #1493e0; }
       .modal-container .canvas .tools .color1 {
         background: #fff; }
       .modal-container .canvas .tools .color2 {

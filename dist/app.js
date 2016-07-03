@@ -606,32 +606,28 @@ var radius = 5;
 var tool = 'brush';
 
 function setUpCanvas() {
-  var $white = $('.white');
-
-
-  var $black = $('.black');
-  var $gray = $('.gray');
-  var $blue = $('.blue');
-  var $purple = $('.purple');
-  var $pink = $('.pink');
-  var $orange = $('.orange');
-  var $green = $('.green');
   var $smaller = $('.smaller');
   var $bigger = $('.bigger');
   var $eraser = $('.eraser');
   var $tools = $('.tools');
   var $color = $('.color');
   var $doneBtn = $('#done-btn');
+  var $hint = $('.hint');
+  var $gotHint = $('#gotHint');
 
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext('2d');
 
   $tools.children().unbind('click');
   $tools.children().on('click', function(){
-    if (!$(this).hasClass('smaller') && !$(this).hasClass('bigger') && !$(this).hasClass('done-btn')) {
+    if (!$(this).hasClass('smaller') && !$(this).hasClass('bigger') && !$(this).hasClass('done-btn') && !$(this).has('#gotHint')) {
       $tools.children().removeClass('active');
       $(this).addClass('active');
     }
+  });
+
+  $gotHint.on('click', function(){
+    $hint.css('display', 'none');
   });
 
   $doneBtn.on('click',function(){
