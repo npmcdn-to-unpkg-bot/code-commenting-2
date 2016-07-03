@@ -2,7 +2,8 @@ $colorBlack: #000;
 $textColor: #9C9C9C;
 $likedColor: #FE5151;
 $backgroundColor: #F5F5F5;
-$navColor: #3b7bd1;
+// $navColor: #3b7bd1;
+$navColor: #239feb;
 
 body {
   background: $backgroundColor;
@@ -257,172 +258,7 @@ ul.albums-grid {
 
 
 
-.modal-container {
-  position: absolute;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.9);
-  .modal {
-    display: none;
-    flex-direction: column;
-    width: 40%;
-    background: $backgroundColor;
-    border: 0;
-    border-radius: 5px;
-    form {
-      p {
-        color: $textColor;
-        padding-left: 2vh;
-      }
-    }
-    div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      h3 {
-        padding: 3vh;
-        color: $textColor;
-      }
-      a {
-        color: $textColor;
-        margin-right: 3vh;
-        font-size: 2rem;
-        &:hover {
-          color: $likedColor;
-        }
-      }
-    }
-    input {
-      border: 0;
-      padding: 3vh;
-      outline: none;
-    }
-    button {
-      background: #9e9e9e;
-      border: 0;
-      border-bottom-right-radius: 5px;
-      border-bottom-left-radius: 5px;
-      outline: none;
-      color: #fff;
-      padding: 3vh;
-      &:hover {
-        cursor: pointer;
-        background: $likedColor;
-      }
-    }
-    .valid {
-      background: $navColor;
-      &:hover {
-        background: darken($navColor,5%);
-      }
-    }
-  }
-  .add-image {
-    display: none;
-  }
-  .login {
-    display: none;
-    form {
-      display: flex;
-      input {
-        flex: 1;
-      }
-      label {
-        padding: 2vh;
-        background: $navColor;
-        color: #fff;
-        font-size: 2rem;
-        height: 100%;
-        border-bottom-left-radius: 5px;
-      }
-      button {
-        border-bottom-right-radius: 5px;
-        border-bottom-left-radius: 0;
-        background-color: #9e9e9e;
-      }
-    }
-  }
-  .create-album {
-    form {
-      display: flex;
-      flex-direction: column;
-      input:first-child {
-        border-bottom: 5px solid $backgroundColor;
-      }
-    }
-  }
-  .canvas {
-    z-index: 100;
-    width: 100%;
-    background: transparent;
-    #brush {
-      // background: #fff;
-      display: none;
-      position: absolute;
-      left: 0;
-      top: 0;
-      // width: 5px;
-      // height: 5px;
-      border: 5px solid #fff;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-    .done-btn {
-      background: $navColor;
-      position: absolute;
-      top: 0;
-      right: 0;
-      border-bottom-right-radius: 0;
-    }
-    canvas {
-      margin: 0 auto;
-    }
-    .tools {
-      position: absolute;
-      bottom: 0;
-      width: 100vw;
-      background: #4a4a4a;
-      display: flex;
-      justify-content: center;
-      padding: 3vh 0;
-      .tool {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 50%;
-        height: 1vw;
-        width: 1vw;
-        margin: 0 1vw;
-        background: lighten(#4a4a4a, 10%);
-        border: 5px solid #4a4a4a;
-        i {
-          transform: translateY(-45%);
-        }
-        &:hover {
-          border: 5px solid darken(#4a4a4a, 10%);
-        }
-        &:active {
-          background-color: #4a4a4a;
-        }
-      }
-      .active {
-        border: 5px solid darken(#4a4a4a, 15%);
-      }
-      .white { background: #fff; }
-      .black { background: #000; }
-      .gray { background: gray; }
-      .blue { background: $navColor; }
-      .purple { background: #7D60EC; }
-      .pink { background: #FD51D9; }
-      .orange { background: #FD7850; }
-      .green { background: #27CC6A; }
-    }
-  }
-}
+
 
 
 
@@ -556,4 +392,203 @@ ul.albums-grid {
 
 .album-page, .image-page {
   display: none;
+}
+
+
+
+
+.modal-container {
+  position: absolute;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.9);
+  .modal {
+    display: none;
+    flex-direction: column;
+    width: 40%;
+    background: $backgroundColor;
+    border: 0;
+    border-radius: 5px;
+    form {
+      p {
+        color: $textColor;
+        padding-left: 2vh;
+      }
+    }
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      h3 {
+        padding: 3vh;
+        color: $textColor;
+      }
+      a {
+        color: $textColor;
+        margin-right: 3vh;
+        font-size: 2rem;
+        &:hover {
+          color: $likedColor;
+        }
+      }
+    }
+    input {
+      border: 0;
+      padding: 3vh;
+      outline: none;
+    }
+    button {
+      background: #9e9e9e;
+      border: 0;
+      border-bottom-right-radius: 5px;
+      border-bottom-left-radius: 5px;
+      outline: none;
+      color: #fff;
+      padding: 3vh;
+      &:hover {
+        cursor: pointer;
+        background: $likedColor;
+      }
+    }
+    .valid {
+      background: $navColor;
+      &:hover {
+        background: darken($navColor,5%);
+      }
+    }
+  }
+  .add-image {
+    display: none;
+  }
+  .login {
+    display: none;
+    form {
+      display: flex;
+      input {
+        flex: 1;
+      }
+      label {
+        padding: 2vh;
+        background: $navColor;
+        color: #fff;
+        font-size: 2rem;
+        height: 100%;
+        border-bottom-left-radius: 5px;
+      }
+      button {
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 0;
+        background-color: #9e9e9e;
+      }
+    }
+  }
+  .create-album {
+    form {
+      display: flex;
+      flex-direction: column;
+      input:first-child {
+        border-bottom: 5px solid $backgroundColor;
+      }
+    }
+  }
+  .canvas {
+    z-index: 100;
+    width: 100%;
+    background: transparent;
+    #brush {
+      // background: #fff;
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+      border: 5px solid #fff;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    canvas {
+      margin: 0 auto;
+    }
+    .tools {
+      position: absolute;
+      bottom: 0;
+      width: 100vw;
+      background: #4a4a4a;
+      display: flex;
+      justify-content: center;
+      padding: 3vh 0;
+      .tool {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 1vw;
+        width: 1vw;
+        margin: 0 1vw;
+        background: lighten(#4a4a4a, 10%);
+        border: 5px solid #4a4a4a;
+        border-radius: 50%;
+        i {
+          transform: translateY(-45%);
+        }
+        &:hover {
+          border: 5px solid darken(#4a4a4a, 10%);
+        }
+        &:active {
+          background-color: #4a4a4a;
+        }
+      }
+      .active {
+        border: 5px solid darken(#4a4a4a, 15%);
+      }
+      .filters {
+        height: 1vw;
+        background: lighten(#4a4a4a, 10%);
+        border: 5px solid #4a4a4a;
+        border-radius: 10px;
+        p {
+          transform: translateY(-45%);
+          padding: 0;
+          margin: 0;
+        }
+        &:hover {
+          border: 5px solid darken(#4a4a4a, 15%);
+        }
+      }
+      .white { background: #fff; }
+      .black { background: #000; }
+      .gray { background: gray; }
+      .blue { background: $navColor; }
+      .purple { background: #7D60EC; }
+      .pink { background: #FD51D9; }
+      .orange { background: #FD7850; }
+      .green { background: #27CC6A; }
+      #done-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1vw;
+        height: 1vw;
+        // padding: 0;
+        right: 0;
+        i {
+          transform: translateY(-50%);
+        }
+        &:hover {
+          background-color: $likedColor;
+        }
+      }
+    }
+  }
+}
+
+#picker_done {
+  &:hover {
+  // The color picker Library used, uses inline styles that it won't let me overwrite. So using !important here is necessary.
+  background: $navColor !important;
+  }
 }

@@ -607,6 +607,8 @@ var tool = 'brush';
 
 function setUpCanvas() {
   var $white = $('.white');
+
+
   var $black = $('.black');
   var $gray = $('.gray');
   var $blue = $('.blue');
@@ -619,29 +621,23 @@ function setUpCanvas() {
   var $eraser = $('.eraser');
   var $tools = $('.tools');
   var $color = $('.color');
+  var $doneBtn = $('#done-btn');
 
-  $doneBtn = $('.done-btn');
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext('2d');
-  // ctx.translate(0.5, 0.5);
-
-
-  // $('.modal-container').css('cursor', 'default');
-  // $('canvas').css('cursor', 'none !important');
-  // $('.curr').css('cursor', 'none !important');
-
-
-  $doneBtn.on('click',function(){
-    $('.modal-container').css('display', 'none');
-    $('.canvas').css('display', 'none');
-  });
 
   $tools.children().unbind('click');
   $tools.children().on('click', function(){
-    if (!$(this).hasClass('smaller') && !$(this).hasClass('bigger')) {
+    if (!$(this).hasClass('smaller') && !$(this).hasClass('bigger') && !$(this).hasClass('done-btn')) {
       $tools.children().removeClass('active');
       $(this).addClass('active');
     }
+  });
+
+  $doneBtn.on('click',function(){
+    console.log('DONE CLICK');
+    $('.modal-container').css('display', 'none');
+    $('.canvas').css('display', 'none');
   });
 
   $color.on('click',function(){
@@ -652,6 +648,7 @@ function setUpCanvas() {
 
   $eraser.on('click',function(){
     tool = 'eraser';
+    $('#brush').css('border-color', 'rgba(255,255,255,0.5)');
   });
 
   $smaller.on('click', function(){
@@ -665,13 +662,48 @@ function setUpCanvas() {
     $('#brush').css('border-width', radius + 'px');
   });
 
+  // var parent = document.getElementById('color1');
+  var colorPallete = document.querySelectorAll('.color');
+
+  colorPallete.forEach(function(colorP){
+    var picker = new Picker({
+      parent: colorP,
+      orientation: 'top',
+      x: '3px',
+      y: '-245px'
+    });
+    picker.on_done = function(colour) {
+      colorP.style.background = colour.rgba().toString();
+      fillColor = colour.rgba().toString();
+      tool = 'brush';
+      $('#brush').css('border-color', colour.rgba().toString());
+      $('#picker_wrapper').remove();
+    };
+    colorP.ondblclick=function(e){
+      console.log('DBCLICK');
+      picker.show();
+      $('#picker_wrapper').css({
+        background: '#646464',
+      });
+      $('#picker_done').css({
+        background: '#646464',
+        color: '#fff'
+      });
+      // $('#picker_done').hover($('#picker_done').css('background','#239feb'),$('#picker_done').css('background','#646464'));
+      // $('#picker_done').mouseenter($('#picker_done').css('background','#239feb'));
+      $('#picker_arrow').css('borderTopColor', '#646464');
+      e.preventDefault();
+    };
+  });
+
+
+
   // define a custom fillCircle method
   ctx.fillCircle = function(x, y, radius, fillColor) {
     ctx.globalCompositeOperation="source-over";
     this.fillStyle = fillColor;
     this.beginPath();
     this.moveTo(x, y);
-    this.lineTo(x, y);
     this.arc(x, y, radius, 0, Math.PI * 2, false);
     this.fill();
   };
@@ -690,6 +722,8 @@ function setUpCanvas() {
     $('body').css('cursor', 'none');
   });
 
+
+
   document.onmousemove = function(e) {
     if (e.target.id !== 'canvas') {
       $('body').css('cursor', 'default');
@@ -702,7 +736,6 @@ function setUpCanvas() {
     $('#brush').css({
       left: e.pageX + 'px',
       top: e.pageY + 'px',
-      transform: 'translate(-50%, -50%)',
       display: 'block'
     });
     if (!canvas.isDrawing) {

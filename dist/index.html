@@ -125,10 +125,11 @@
 
       <div class="canvas modal">
         <div id="brush"></div>
-        <button class="done-btn" type="button" name="button">Done</button>
         <canvas id="canvas"></canvas>
         <div class="tools">
-          <button class="tool color white active" type="button" name="button"></button>
+          <button class="filters" type="button" name="button"><p>Filters</p></button>
+          <!-- <input id="custom" type="text" name="name" value=""> -->
+          <button id="color1" class="tool color white active" type="button" name="button"></button>
           <button class="tool color black" type="button" name="button"></button>
           <button class="tool color gray" type="button" name="button"></button>
           <button class="tool color blue" type="button" name="button"></button>
@@ -139,6 +140,7 @@
           <button class="tool smaller" type="button" name="button"><i class="fa fa-minus" aria-hidden="true"></i></button>
           <button class="tool bigger" type="button" name="button"><i class="fa fa-plus" aria-hidden="true"></i></button>
           <button class="tool eraser" type="button" name="button"><i class="fa fa-eraser" aria-hidden="true"></i></button>
+          <button id="done-btn" class="tool done-btn" type="button" name="button"><i class="fa fa-times" aria-hidden="true"></i></button>
         </div>
       </div>
 
@@ -153,10 +155,13 @@
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.0.0.min.js"   integrity="sha256-JmvOoLtYsmqlsWxa7mDSLMwa6dZ9rrIdtrrVYRnDRH0="   crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js" integrity="sha256-xNjb53/rY+WmG+4L6tTl9m6PpqknWZvRt0rO1SRnJzw=" crossorigin="anonymous"></script>
-    <!-- Masonry JQuery library -->
+    <!-- Masonry library -->
     <script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.min.js"></script>
     <!-- Images Loaded library -->
     <script src="https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>
+    <!-- Color picker Libary -->
+    <script src="picker.min.js" type="text/javascript"></script>
+    <!-- My script files -->
     <script src="data.js" type="text/javascript"></script>
     <script src="app.js" type="text/javascript"></script>
   </body>

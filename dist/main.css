@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5 {
   justify-content: space-between;
   align-items: center;
   padding: 2.5vh 5vw;
-  background: #3b7bd1;
+  background: #239feb;
   color: #fff; }
   .myAlbumsPage header nav button {
     background: none;
@@ -100,8 +100,8 @@ ul.albums-grid {
       margin-right: 10px; }
     .new-album div:hover {
       cursor: pointer;
-      border: 3px dashed #3b7bd1;
-      color: #3b7bd1; }
+      border: 3px dashed #239feb;
+      color: #239feb; }
 
 .album-page {
   display: flex;
@@ -112,15 +112,15 @@ ul.albums-grid {
     justify-content: space-between;
     width: 18vw;
     height: 100vh;
-    background: #3b7bd1;
+    background: #239feb;
     position: fixed;
     box-sizing: border-box; }
     .album-page nav div h3 {
       color: #fff;
       padding: 4vh 1vw;
-      background: #2963b0; }
+      background: #1283c9; }
       .album-page nav div h3:hover {
-        background: #2c6abc;
+        background: #148dd7;
         cursor: pointer; }
       .album-page nav div h3 i {
         margin-right: 10px; }
@@ -133,15 +133,15 @@ ul.albums-grid {
         cursor: pointer;
         background: rgba(255, 255, 255, 0.1); }
     .album-page nav div ul .selected {
-      background: #2e6ec4; }
+      background: #1493e0; }
     .album-page nav button {
       border: none;
-      background: #2963b0;
+      background: #1283c9;
       color: #fff;
       padding: 3vh 0;
       outline: none; }
       .album-page nav button:hover {
-        background: #2c6abc;
+        background: #148dd7;
         cursor: pointer; }
   .album-page main {
     margin-left: 20vw;
@@ -162,6 +162,99 @@ ul.albums-grid {
   .grid-item:hover {
     cursor: pointer;
     padding: 0; }
+
+.image-page main {
+  background: #F5F5F5;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden; }
+.image-page button {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 3vh;
+  background: none;
+  border: none;
+  color: #000;
+  cursor: pointer;
+  z-index: 2;
+  outline: none; }
+  .image-page button i {
+    margin-right: 10px; }
+  .image-page button:hover {
+    color: #239feb; }
+
+.slider {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden; }
+  .slider li {
+    position: absolute;
+    display: none;
+    transition: .5s;
+    font-size: 0; }
+    .slider li button {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.4);
+      bottom: 0;
+      width: 100%;
+      padding: 0;
+      max-height: 0;
+      transition: 150ms;
+      color: #fff; }
+      .slider li button:hover {
+        background-color: #239feb;
+        color: #fff; }
+    .slider li img {
+      transition: .5s; }
+  .slider .curr {
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    max-width: 50%;
+    transform: translate(-50%, -50%);
+    display: block;
+    text-align: center; }
+    .slider .curr:hover button {
+      padding: 2% 0;
+      font-size: 1rem;
+      max-height: 100%; }
+    .slider .curr img {
+      object-fit: scale-down;
+      max-width: 100%; }
+  .slider .prev {
+    height: 100%;
+    width: 50%;
+    display: block;
+    z-index: 0;
+    left: -35%;
+    opacity: 0.3; }
+    .slider .prev img {
+      position: absolute;
+      height: 100%;
+      right: 0; }
+    .slider .prev:hover {
+      opacity: 0.7;
+      cursor: pointer; }
+  .slider .next {
+    height: 100%;
+    width: 50%;
+    display: block;
+    left: 85%;
+    opacity: 0.3; }
+    .slider .next img {
+      position: absolute;
+      height: 100%;
+      left: 0; }
+    .slider .next:hover {
+      opacity: 0.7;
+      cursor: pointer; }
+
+.album-page, .image-page {
+  display: none; }
 
 .modal-container {
   position: absolute;
@@ -211,9 +304,9 @@ ul.albums-grid {
         cursor: pointer;
         background: #FE5151; }
     .modal-container .modal .valid {
-      background: #3b7bd1; }
+      background: #239feb; }
       .modal-container .modal .valid:hover {
-        background: #2e6ec4; }
+        background: #1493e0; }
   .modal-container .add-image {
     display: none; }
   .modal-container .login {
@@ -224,7 +317,7 @@ ul.albums-grid {
         flex: 1; }
       .modal-container .login form label {
         padding: 2vh;
-        background: #3b7bd1;
+        background: #239feb;
         color: #fff;
         font-size: 2rem;
         height: 100%;
@@ -248,14 +341,9 @@ ul.albums-grid {
       left: 0;
       top: 0;
       border: 5px solid #fff;
+      transform: translate(-50%, -50%);
       border-radius: 50%;
       pointer-events: none; }
-    .modal-container .canvas .done-btn {
-      background: #3b7bd1;
-      position: absolute;
-      top: 0;
-      right: 0;
-      border-bottom-right-radius: 0; }
     .modal-container .canvas canvas {
       margin: 0 auto; }
     .modal-container .canvas .tools {
@@ -267,15 +355,16 @@ ul.albums-grid {
       justify-content: center;
       padding: 3vh 0; }
       .modal-container .canvas .tools .tool {
+        position: relative;
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 50%;
         height: 1vw;
         width: 1vw;
         margin: 0 1vw;
         background: #646464;
-        border: 5px solid #4a4a4a; }
+        border: 5px solid #4a4a4a;
+        border-radius: 50%; }
         .modal-container .canvas .tools .tool i {
           transform: translateY(-45%); }
         .modal-container .canvas .tools .tool:hover {
@@ -284,6 +373,17 @@ ul.albums-grid {
           background-color: #4a4a4a; }
       .modal-container .canvas .tools .active {
         border: 5px solid #242424; }
+      .modal-container .canvas .tools .filters {
+        height: 1vw;
+        background: #646464;
+        border: 5px solid #4a4a4a;
+        border-radius: 10px; }
+        .modal-container .canvas .tools .filters p {
+          transform: translateY(-45%);
+          padding: 0;
+          margin: 0; }
+        .modal-container .canvas .tools .filters:hover {
+          border: 5px solid #242424; }
       .modal-container .canvas .tools .white {
         background: #fff; }
       .modal-container .canvas .tools .black {
@@ -291,7 +391,7 @@ ul.albums-grid {
       .modal-container .canvas .tools .gray {
         background: gray; }
       .modal-container .canvas .tools .blue {
-        background: #3b7bd1; }
+        background: #239feb; }
       .modal-container .canvas .tools .purple {
         background: #7D60EC; }
       .modal-container .canvas .tools .pink {
@@ -300,98 +400,19 @@ ul.albums-grid {
         background: #FD7850; }
       .modal-container .canvas .tools .green {
         background: #27CC6A; }
+      .modal-container .canvas .tools #done-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1vw;
+        height: 1vw;
+        right: 0; }
+        .modal-container .canvas .tools #done-btn i {
+          transform: translateY(-50%); }
+        .modal-container .canvas .tools #done-btn:hover {
+          background-color: #FE5151; }
 
-.image-page main {
-  background: #F5F5F5;
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden; }
-.image-page button {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 3vh;
-  background: none;
-  border: none;
-  color: #000;
-  cursor: pointer;
-  z-index: 2;
-  outline: none; }
-  .image-page button i {
-    margin-right: 10px; }
-  .image-page button:hover {
-    color: #3b7bd1; }
-
-.slider {
-  display: flex;
-  align-items: center;
-  position: relative;
-  height: 100vh;
-  width: 100%;
-  overflow: hidden; }
-  .slider li {
-    position: absolute;
-    display: none;
-    transition: .5s;
-    font-size: 0; }
-    .slider li button {
-      position: absolute;
-      background: rgba(0, 0, 0, 0.4);
-      bottom: 0;
-      width: 100%;
-      padding: 0;
-      max-height: 0;
-      transition: 150ms;
-      color: #fff; }
-      .slider li button:hover {
-        background-color: #3b7bd1;
-        color: #fff; }
-    .slider li img {
-      transition: .5s; }
-  .slider .curr {
-    z-index: 1;
-    left: 50%;
-    top: 50%;
-    max-width: 50%;
-    transform: translate(-50%, -50%);
-    display: block;
-    text-align: center; }
-    .slider .curr:hover button {
-      padding: 2% 0;
-      font-size: 1rem;
-      max-height: 100%; }
-    .slider .curr img {
-      object-fit: scale-down;
-      max-width: 100%; }
-  .slider .prev {
-    height: 100%;
-    width: 50%;
-    display: block;
-    z-index: 0;
-    left: -35%;
-    opacity: 0.3; }
-    .slider .prev img {
-      position: absolute;
-      height: 100%;
-      right: 0; }
-    .slider .prev:hover {
-      opacity: 0.7;
-      cursor: pointer; }
-  .slider .next {
-    height: 100%;
-    width: 50%;
-    display: block;
-    left: 85%;
-    opacity: 0.3; }
-    .slider .next img {
-      position: absolute;
-      height: 100%;
-      left: 0; }
-    .slider .next:hover {
-      opacity: 0.7;
-      cursor: pointer; }
-
-.album-page, .image-page {
-  display: none; }
+#picker_done:hover {
+  background: #239feb !important; }
 
 /*# sourceMappingURL=main.css.map */
