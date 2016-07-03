@@ -499,8 +499,10 @@ function renderImage(albumIndex, imageIndex) {
     $canvas.css('display', 'flex');
     var imageWidth = $('.curr').children('img').width();
     var imageHeight = $('.curr').children('img').height();
-    $canvas.children('canvas').css('width', imageWidth);
-    $canvas.children('canvas').css('height', imageHeight);
+    // $canvas.children('canvas').css('width', imageWidth);
+    // $canvas.children('canvas').css('height', imageHeight);
+    $canvas.children('canvas').attr('width', imageWidth);
+    $canvas.children('canvas').attr('height', imageHeight);
     setUpCanvas();
     //hide cursor
   });
@@ -621,6 +623,7 @@ function setUpCanvas() {
   $doneBtn = $('.done-btn');
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext('2d');
+  // ctx.translate(0.5, 0.5);
 
 
   // $('.modal-container').css('cursor', 'default');
@@ -654,12 +657,12 @@ function setUpCanvas() {
   $smaller.on('click', function(){
     if (radius > 1) {
       radius--;
-      $('#brush').css('border-width', radius*2 + 'px');
+      $('#brush').css('border-width', radius + 'px');
     }
   });
   $bigger.on('click', function(){
     radius++;
-    $('#brush').css('border-width', radius*2 + 'px');
+    $('#brush').css('border-width', radius + 'px');
   });
 
   // define a custom fillCircle method
@@ -668,6 +671,7 @@ function setUpCanvas() {
     this.fillStyle = fillColor;
     this.beginPath();
     this.moveTo(x, y);
+    this.lineTo(x, y);
     this.arc(x, y, radius, 0, Math.PI * 2, false);
     this.fill();
   };
