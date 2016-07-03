@@ -443,16 +443,21 @@ function renderImage(albumIndex, imageIndex) {
       var imageHTML = '<li><img src="' + data[albumIndex].images[i] + '" alt="" /></li>';
       $image = $(imageHTML);
       $image.addClass('single_slide');
+
       if (i === (Number(imageIndex)+1)) {
         $image.addClass('next');
+      } else if (Number(imageIndex) === Number(data[albumIndex].images.length)-1 && i === 0) {
+        $image.addClass('next');
       }
+
       $image.attr('data-index', i);
       $slider.append($image);
     }
   });
 
   $('#backToAlbum').on('click', function(){
-    renderAlbum(albumIndex);
+    // renderAlbum(albumIndex);
+    location.hash = 'album=' + albumIndex + '&';
     $slider.empty();
   });
 
@@ -469,45 +474,40 @@ function renderImage(albumIndex, imageIndex) {
 
     // Removes all event handlers from other images.
     $slider.children().off();
+    $slider.children().removeClass('prev');
+    $slider.children().removeClass('curr');
+    $slider.children().removeClass('next');
 
-    if (currentIndex === -1) {
-      console.log('JUST BEFORE CURR === 0');
-      $('.single_slide[data-index="' + (data[albumIndex].images.length-1) + '"]').removeClass('curr').addClass('prev').one('click', prevClickHandler);
-      $('.single_slide[data-index="' + (data[albumIndex].images.length-2) + '"]').removeClass('prev');
-    } else if (currentIndex === 0) {
-      console.log('currentIndex is 0');
+    if (currentIndex === 0) {
       $('.single_slide[data-index="' + '0' + '"]').removeClass('curr').addClass('prev').one('click', prevClickHandler);
       $('.single_slide[data-index="' + (data[albumIndex].images.length-1) + '"]').removeClass('prev');
+      $('.single_slide[data-index="' + '1' + '"]').removeClass('next').addClass('curr');
+      $newNext.addClass('next').one('click', nextClickHandler);
+      currentIndex++;
+    } else if (Number(currentIndex) === Number(data[albumIndex].images.length)-1) {
+      $('.single_slide[data-index="' + '0' + '"]').removeClass('next').addClass('curr');
+      $('.single_slide[data-index="' + '1' + '"]').addClass('next').one('click', nextClickHandler);
+      $('.single_slide[data-index="' + (data[albumIndex].images.length-1) + '"]').addClass('prev').removeClass('curr').one('click', prevClickHandler);
+      $('.single_slide[data-index="' + (data[albumIndex].images.length-2) + '"]').removeClass('prev');
+      currentIndex = 0;
     } else {
-      console.log('ELSE');
-      console.log('PREV', $prev);
-      console.log('CURR', $curr);
       $prev.removeClass('prev');
-      $curr.removeClass('curr');
-      $curr.addClass('prev');
-      $curr.one('click', prevClickHandler);
-    }
-    console.log('NEXT', $next);
-    $next.removeClass('next').addClass('curr');
-
-    if (currentIndex+1 === data[albumIndex].images.length-1) {
-      $newNext = $('.single_slide[data-index="' + '0' + '"]');
-      currentIndex = -1;
-    } else {
+      $curr.removeClass('curr').addClass('prev').one('click', prevClickHandler);
+      $next.removeClass('next').addClass('curr');
+      if (Number(currentIndex) === Number(data[albumIndex].images.length)-2) {
+        $newNext = $('.single_slide[data-index="' + '0' + '"]');
+      }
+      $newNext.addClass('next').one('click', nextClickHandler);
       currentIndex++;
     }
-
-    $newNext.addClass('next').one('click', nextClickHandler);
   }
 
   function prevClickHandler() {
-    if (currentIndex === -1) {
-      currentIndex = 0;
-    }
-    var $newPrev = $('.single_slide[data-index="' + (currentIndex-2) + '"]');
-    var $prev = $('.single_slide[data-index="' + (currentIndex-1) + '"]');
+
+    var $newPrev = $('.single_slide[data-index="' + (Number(currentIndex)-2) + '"]');
+    var $prev = $('.single_slide[data-index="' + (Number(currentIndex)-1) + '"]');
     var $curr = $('.single_slide[data-index="' + currentIndex + '"]');
-    var $next = $('.single_slide[data-index="' + (currentIndex+1) + '"]');
+    var $next = $('.single_slide[data-index="' + (Number(currentIndex)+1) + '"]');
 
     // Removes all event handlers from other images.
     $slider.children().off();
@@ -515,7 +515,7 @@ function renderImage(albumIndex, imageIndex) {
     $slider.children().removeClass('next');
     $slider.children().removeClass('curr');
 
-    if (currentIndex === 6) {
+    if (currentIndex === 0) {
       $('.single_slide[data-index="' + '0' + '"]').removeClass('curr').addClass('next').one('click', nextClickHandler);
       $('.single_slide[data-index="' + '1' + '"]').removeClass('next');
       $('.single_slide[data-index="' + (data[albumIndex].images.length-1) + '"]').addClass('curr').removeClass('prev');
