@@ -46,6 +46,7 @@ function renderHome() {
   $albumsGrid.empty();
 
   if (!sessionStorage.email) {
+    $('.modal').css('display', 'none');
     $modalContainer.css('display', 'flex');
     $('.login').css('display', 'flex');
   }
@@ -330,6 +331,14 @@ function renderAlbum(albumIndex) { // albumIndex is a data object with index as 
   $('.add-image-button').on('click', function(){
     $modalContainer.css('display', 'flex');
     $addImageModal.css('display', 'flex');
+  });
+
+  $('.image-url').on('keyup', function(){
+    if ($(this).val() !== '') {
+      $(".submit").addClass('valid');
+    } else {
+      $(".submit").removeClass('valid');
+    }
   });
 
   $(".submit").unbind('click');
