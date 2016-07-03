@@ -108,7 +108,7 @@
         </form>
       </div>
 
-      <div class="create-album modal">
+      <div id="new-album-modal" class="create-album modal">
         <div class="description">
           <h3>Create new Album</h3>
           <a class="dismiss" href="#"><i class="fa fa-times-circle-o" aria-hidden="true"></i></a>
@@ -124,6 +124,7 @@
 
 
       <div class="canvas modal">
+        <div id="brush"></div>
         <button class="done-btn" type="button" name="button">Done</button>
         <canvas id="canvas"></canvas>
         <div class="tools">
@@ -135,7 +136,7 @@
           <button class="tool color pink" type="button" name="button"></button>
           <button class="tool color orange" type="button" name="button"></button>
           <button class="tool color green" type="button" name="button"></button>
-          <button class="tool color smaller" type="button" name="button"><i class="fa fa-minus" aria-hidden="true"></i></button>
+          <button class="tool smaller" type="button" name="button"><i class="fa fa-minus" aria-hidden="true"></i></button>
           <button class="tool bigger" type="button" name="button"><i class="fa fa-plus" aria-hidden="true"></i></button>
           <button class="tool eraser" type="button" name="button"><i class="fa fa-eraser" aria-hidden="true"></i></button>
         </div>

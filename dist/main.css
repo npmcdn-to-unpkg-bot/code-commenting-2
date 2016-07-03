@@ -242,6 +242,14 @@ ul.albums-grid {
     z-index: 100;
     width: 100%;
     background: transparent; }
+    .modal-container .canvas #brush {
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+      border: 5px solid #fff;
+      border-radius: 50%;
+      pointer-events: none; }
     .modal-container .canvas .done-btn {
       background: #3b7bd1;
       position: absolute;

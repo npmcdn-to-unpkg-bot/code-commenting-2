@@ -71,7 +71,7 @@ function renderHome() {
       $('.modal').css('display', 'none');
     } else {
       // INVALID EMAIL
-      $('.login.modal').effect( "shake" );
+      $('.login').effect( "shake" );
     }
   });
 
@@ -109,19 +109,16 @@ function renderHome() {
     $li.children('a').children('.album-meta').children('div').children('p').text(album.likes);
     // Set the data:
     $li.children('a').children('.image-container').attr('data-index', i);
-    // console.log($li.data()); // To call the data.
 
     $albumsGrid.append($li);
 
     // event Listener
     $li.children('a').children('.image-container').on('click', function(e){
-      // renderAlbum($(this).data().index);
       location.hash = 'album=' + $(this).data().index + '&';
       return false; // This prevents the anchor tag href to set the hash
     });
 
     $li.children('a').children('.album-meta').children('div').on('click', function(){
-      // var $likedDiv = $li.children('a').children('.album-meta').children('div');
       var albumIndex = $(this).closest('.album-meta').siblings('.image-container').data().index;
       if ($(this).hasClass('liked')) {
         $(this).removeClass('liked');
@@ -165,17 +162,18 @@ function renderHome() {
         $submitBtn.removeClass('valid');
       }
     });
-
+    $submitBtn.unbind('click');
     $submitBtn.on('click', function(){
       if ($albumName.val() !== '' && $imageInput.val() !== '') {
         var imageURL = $imageInput.val();
         var albumName = $albumName.val();
+        var albumsArray = localStorage.getItem('albums');
+        albumsArray = JSON.parse(albumsArray);
 
         if(window.localStorage) {
           if (localStorage.albums) { // If albums have been stored
-            var albumsArray = localStorage.getItem('albums');
-            albumsArray = JSON.parse(albumsArray);
             var albumAlreadyExists = false;
+            var allAlbumsArray = [];
             albumsArray.forEach(function(album){
               if (album.title === albumName) { albumAlreadyExists = true; }
             });
@@ -195,6 +193,7 @@ function renderHome() {
           } else {
             var albumObject = {
               title: albumName,
+              likes: 0,
               images: [imageURL]
             };
             var albums = [albumObject];
@@ -203,8 +202,37 @@ function renderHome() {
         }
         $modalContainer.css('display', 'none');
         $('.modal').css('display', 'none');
+
+        var newLiHTML = '<li class="album"><a href="#"><div class="album-meta"><div><i class="fa fa-heart" aria-hidden="true"></i><i class="fa fa-heart-o" aria-hidden="true"></i><p class="likes">0</p></div><h5 class="Album title">Album Title</h5></div><div class="image-container"></div></a></li>';
+        var $newLi = $(newLiHTML);
+        // Set the BG image
+        $newLi.children('a').children('.image-container').css('background-image', 'url(' + imageURL + ')');
+        // Set the title
+        $newLi.children('a').children('.album-meta').children('h5').text(albumName);
+        $newLi.children('a').children('.album-meta').children('div').children('p').text('0');
+        // Set the data:
+        $newLi.children('a').children('.image-container').attr('data-index', data.length+albumsArray.length);
+
+        // event Listener
+        $newLi.children('a').children('.image-container').on('click', function(e){
+          location.hash = 'album=' + $(this).data().index + '&';
+          return false; // This prevents the anchor tag href to set the hash
+        });
+
+        $newLi.children('a').children('.album-meta').children('div').on('click', function(){
+          var albumIndex = $(this).closest('.album-meta').siblings('.image-container').data().index;
+          if ($(this).hasClass('liked')) {
+            $(this).removeClass('liked');
+            data[albumIndex].likes--;
+          } else {
+            $(this).addClass('liked');
+            data[albumIndex].likes++;
+          }
+          $(this).children('p').text(data[albumIndex].likes);
+        });
+
       } else {
-        $('.create-album').effect('shake');
+        $('#new-album-modal').effect('shake');
       }
     });
 
@@ -380,11 +408,11 @@ function renderAlbum(albumIndex) { // albumIndex is a data object with index as 
           var albums = [albumObject];
           localStorage.setItem('albums', JSON.stringify(albums));
         }
-      $modalContainer.css('display', 'none');
-      $('.modal').css('display', 'none');
-      appendImage(imgURL, data[albumIndex].images.length-1);
-      $grid.imagesLoaded().progress( function() {
+        appendImage(imgURL, data[albumIndex].images.length-1);
+        $grid.imagesLoaded().progress( function() {
         $grid.masonry('layout'); // Layout images after they have been loaded
+        $modalContainer.css('display', 'none');
+        $('.modal').css('display', 'none');
       });
     } else {
       $('.add-image').effect('shake');
@@ -474,6 +502,7 @@ function renderImage(albumIndex, imageIndex) {
     $canvas.children('canvas').css('width', imageWidth);
     $canvas.children('canvas').css('height', imageHeight);
     setUpCanvas();
+    //hide cursor
   });
 
   $('#backToAlbum').on('click', function(){
@@ -570,7 +599,7 @@ function renderImage(albumIndex, imageIndex) {
 
 
 
-var fillColor = '#ddd';
+var fillColor = '#fff';
 var radius = 5;
 var tool = 'brush';
 
@@ -593,6 +622,12 @@ function setUpCanvas() {
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext('2d');
 
+
+  // $('.modal-container').css('cursor', 'default');
+  // $('canvas').css('cursor', 'none !important');
+  // $('.curr').css('cursor', 'none !important');
+
+
   $doneBtn.on('click',function(){
     $('.modal-container').css('display', 'none');
     $('.canvas').css('display', 'none');
@@ -609,10 +644,22 @@ function setUpCanvas() {
   $color.on('click',function(){
     fillColor = $(this).css('backgroundColor');
     tool = 'brush';
+    $('#brush').css('border-color', $(this).css('backgroundColor'));
   });
 
   $eraser.on('click',function(){
     tool = 'eraser';
+  });
+
+  $smaller.on('click', function(){
+    if (radius > 1) {
+      radius--;
+      $('#brush').css('border-width', radius*2 + 'px');
+    }
+  });
+  $bigger.on('click', function(){
+    radius++;
+    $('#brush').css('border-width', radius*2 + 'px');
   });
 
   // define a custom fillCircle method
@@ -634,23 +681,36 @@ function setUpCanvas() {
   };
 
   var rect = canvas.getBoundingClientRect();
+
+  $('canvas').on('mouseover', function(){
+    $('body').css('cursor', 'none');
+  });
+
+  document.onmousemove = function(e) {
+    if (e.target.id !== 'canvas') {
+      $('body').css('cursor', 'default');
+      $('#brush').css('display', 'none');
+    }
+  };
+
   // bind mouse events
   canvas.onmousemove = function(e) {
-      if (!canvas.isDrawing) {
-         return;
-      }
-      var x = (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
-      var y = (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
-      if (tool === 'brush') {
-        ctx.fillCircle(x, y, radius, fillColor);
-      } else if (tool === 'eraser') {
-        ctx.eraseCircle(x, y, radius);
-        // console.log('ERASER');
-        // ctx.globalCompositeOperation="destination-out";
-        // ctx.arc(x, y, radius, 0, Math.PI * 2, false);
-        // ctx.fill();
-      }
-
+    $('#brush').css({
+      left: e.pageX + 'px',
+      top: e.pageY + 'px',
+      transform: 'translate(-50%, -50%)',
+      display: 'block'
+    });
+    if (!canvas.isDrawing) {
+       return;
+    }
+    var x = (e.clientX - rect.left) / (rect.right - rect.left) * canvas.width;
+    var y = (e.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height;
+    if (tool === 'brush') {
+      ctx.fillCircle(x, y, radius, fillColor);
+    } else if (tool === 'eraser') {
+      ctx.eraseCircle(x, y, radius);
+    }
   };
   canvas.onmousedown = function(e) {
       canvas.isDrawing = true;

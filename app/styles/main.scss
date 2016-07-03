@@ -359,6 +359,18 @@ ul.albums-grid {
     z-index: 100;
     width: 100%;
     background: transparent;
+    #brush {
+      // background: #fff;
+      display: none;
+      position: absolute;
+      left: 0;
+      top: 0;
+      // width: 5px;
+      // height: 5px;
+      border: 5px solid #fff;
+      border-radius: 50%;
+      pointer-events: none;
+    }
     .done-btn {
       background: $navColor;
       position: absolute;
