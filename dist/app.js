@@ -432,24 +432,25 @@ function renderImage(albumIndex, imageIndex) {
 
   var currentIndex = imageIndex;
   // Add previous image
-  var prevImageHTML = '<li><img src="' + data[albumIndex].images[prevImageIndex] + '" alt="" /></li>';
+  var prevImageHTML = '<li><img src="' + data[albumIndex].images[prevImageIndex] + '" alt="" /><button class="edit-btn" type="button" name="button">Edit Image</button></li>';
   $prevImage = $(prevImageHTML);
   $prevImage.addClass('single_slide');
   $prevImage.addClass('prev');
   $prevImage.attr('data-index', prevImageIndex);
   $slider.append($prevImage);
   // Add current image
-  var currImageHTML = '<li><img src="' + data[albumIndex].images[imageIndex] + '" alt="" /></li>';
+  var currImageHTML = '<li><img src="' + data[albumIndex].images[imageIndex] + '" alt="" /><button class="edit-btn" type="button" name="button">Edit Image</button></li>';
   $currImage = $(currImageHTML);
   $currImage.addClass('single_slide');
   $currImage.addClass('curr');
   $currImage.attr('data-index', imageIndex);
   $slider.append($currImage);
+  setUpCanvas();
 
   // Add all other images
   data[albumIndex].images.forEach(function(image, i){
     if (i !== Number(imageIndex) && i !== Number(prevImageIndex)) {
-      var imageHTML = '<li><img src="' + data[albumIndex].images[i] + '" alt="" /></li>';
+      var imageHTML = '<li><img src="' + data[albumIndex].images[i] + '" alt="" /><button class="edit-btn" type="button" name="button">Edit Image</button></li>';
       $image = $(imageHTML);
       $image.addClass('single_slide');
 
@@ -550,4 +551,69 @@ function renderImage(albumIndex, imageIndex) {
       nextClickHandler();
     }, 2000);
   }
+}
+
+
+
+
+
+
+
+
+function setUpCanvas() {
+  // var canvas = $('.curr').children('canvas');
+  // console.log(va);
+  var ctx = canvas.getContext('2d');
+
+  //Variables
+  var canvasx = $(canvas).offset().left;
+  var canvasy = $(canvas).offset().top;
+  var last_mousex = 0;
+  var last_mousey = 0;
+  var mousex = 0;
+  var mousey = 0;
+  var mousedown = false;
+  var tooltype = 'draw';
+
+  //Mousedown
+  $(canvas).on('mousedown', function(e) {
+    last_mousex = mousex = parseInt(e.clientX-canvasx);
+  	last_mousey = mousey = parseInt(e.clientY-canvasy);
+    mousedown = true;
+  });
+
+  //Mouseup
+  $(canvas).on('mouseup', function(e) {
+    mousedown = false;
+  });
+
+  //Mousemove
+  $(canvas).on('mousemove', function(e) {
+    mousex = parseInt(e.clientX-canvasx);
+    mousey = parseInt(e.clientY-canvasy);
+    if(mousedown) {
+      ctx.beginPath();
+      if(tooltype=='draw') {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 3;
+      } else {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.lineWidth = 10;
+      }
+      ctx.moveTo(last_mousex,last_mousey);
+      ctx.lineTo(mousex,mousey);
+      ctx.lineJoin = ctx.lineCap = 'round';
+      ctx.stroke();
+    }
+    last_mousex = mousex;
+    last_mousey = mousey;
+    //Output
+    $('#output').html('current: '+mousex+', '+mousey+'<br/>last: '+last_mousex+', '+last_mousey+'<br/>mousedown: '+mousedown);
+  });
+
+  //Use draw | erase
+  use_tool = function(tool) {
+    tooltype = tool; //update
+  };
 }
