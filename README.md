@@ -2,6 +2,15 @@
 
 Live site: [https://marklyck.github.io/Photo-Gallery/](https://marklyck.github.io/Photo-Gallery/)
 
+Albums:
+![alt text](https://github.com/MarkLyck/Photo-Gallery/blob/master/dist/assets/images/screen1.png?raw=true "Screenshot 1")
+
+
+Images:
+![alt text](https://github.com/MarkLyck/Photo-Gallery/blob/master/dist/assets/images/screen2.png?raw=true "Screenshot 2")
+
+Drawing tools:
+![alt text](https://github.com/MarkLyck/Photo-Gallery/blob/master/dist/assets/images/screen3.png?raw=true "Screenshot 3")
 
 
 Features:
