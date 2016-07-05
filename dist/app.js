@@ -614,13 +614,17 @@ function setUpCanvas() {
   var $doneBtn = $('#done-btn');
   var $hint = $('.hint');
   var $gotHint = $('#gotHint');
+  var $textBtn = $('.textBtn');
+  var currentColor = 'rgba(255,255,255,1)';
 
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext('2d');
 
   $tools.children().unbind('click');
   $tools.children().on('click', function(){
-    if (!$(this).hasClass('smaller') && !$(this).hasClass('bigger') && !$(this).hasClass('done-btn') && !$(this).has('#gotHint')) {
+    console.log('CLICKY');
+    if (!$(this).hasClass('smaller') && !$(this).hasClass('bigger') && !$(this).hasClass('done-btn') && !$(this).hasClass('#gotHint') && !$(this).hasClass('textBtn')) {
+      console.log('SHOULD BE ACTIVE');
       $tools.children().removeClass('active');
       $(this).addClass('active');
     }
@@ -640,6 +644,7 @@ function setUpCanvas() {
     fillColor = $(this).css('backgroundColor');
     tool = 'brush';
     $('#brush').css('border-color', $(this).css('backgroundColor'));
+    currentColor = $(this).css('backgroundColor');
   });
 
   $eraser.on('click',function(){
@@ -656,6 +661,11 @@ function setUpCanvas() {
   $bigger.on('click', function(){
     radius++;
     $('#brush').css('border-width', radius + 'px');
+  });
+
+  var placingText = false;
+  $textBtn.on('click',function(){
+    placingText = true;
   });
 
   // var parent = document.getElementById('color1');
@@ -719,7 +729,6 @@ function setUpCanvas() {
   });
 
 
-
   document.onmousemove = function(e) {
     if (e.target.id !== 'canvas') {
       $('body').css('cursor', 'default');
@@ -747,6 +756,18 @@ function setUpCanvas() {
   };
   canvas.onmousedown = function(e) {
       canvas.isDrawing = true;
+      if (placingText) {
+        placingText = false;
+        var inputHTML = '<input class="placedText" type="text">'
+        var $placedText = $(inputHTML);
+        $placedText.css({
+          top: e.pageY + 'px',
+          left: e.pageX + 'px',
+          transform: 'translateY(-50%)',
+          color: currentColor
+        });
+        $('.canvas').append($placedText);
+      }
   };
   canvas.onmouseup = function(e) {
       canvas.isDrawing = false;

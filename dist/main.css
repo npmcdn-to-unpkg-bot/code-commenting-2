@@ -428,6 +428,13 @@ ul.albums-grid {
       .modal-container .canvas .tools .color8 {
         background: #27CC6A; }
 
+.placedText {
+  position: absolute;
+  background: transparent; }
+  .placedText:hover {
+    background: #fff;
+    color: #000 !important; }
+
 #done-btn {
   position: absolute;
   top: 50%;

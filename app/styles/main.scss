@@ -606,6 +606,16 @@ ul.albums-grid {
   }
 }
 
+.placedText {
+  position: absolute;
+  // color: #fff;
+  background: transparent;
+  &:hover {
+    background: #fff;
+    color: #000 !important;
+  }
+}
+
 #done-btn {
   position: absolute;
   top: 50%;
