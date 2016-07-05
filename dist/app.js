@@ -757,6 +757,7 @@ function setUpCanvas() {
   canvas.onmousedown = function(e) {
       canvas.isDrawing = true;
       if (placingText) {
+        canvas.isDrawing = false;
         placingText = false;
         var inputHTML = '<input class="placedText" type="text">'
         var $placedText = $(inputHTML);
