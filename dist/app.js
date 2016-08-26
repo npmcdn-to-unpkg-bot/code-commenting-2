@@ -210,8 +210,8 @@ function renderHome() {
         // Set the title
         $newLi.children('a').children('.album-meta').children('h5').text(albumName);
         $newLi.children('a').children('.album-meta').children('div').children('p').text('0');
-        // Set the data:
-        $newLi.children('a').children('.image-container').attr('data-index', data.length+albumsArray.length);
+        // Set the :
+        $newLi.children('a').children('.image-container').attr('-index', .length+albumsArray.length);
 
         // event Listener
         $newLi.children('a').children('.image-container').on('click', function(e){
@@ -339,13 +339,15 @@ function renderAlbum(albumIndex) { // albumIndex is a data object with index as 
     appendImage(image, i);
   });
 
+
+  //add all the images from this album to the page
+  //assign proper src and data attrs
   function appendImage(image, i) {
     var imageHTML = '<div class="grid-item"><img src="' + image + '" alt="" <img/></div>';
     var $image = $(imageHTML);
     $image.attr('data-index', i);
     $image.css('width', ($('.grid').width()/4)-10 + 'px');
     $grid.masonry().append($image).masonry( 'appended', $image ).masonry();
-
     $image.unbind('click');
     $image.on('click', function(e){
       location.hash = 'album=' + albumIndex + '&image=' + $(this).data().index + '&';
@@ -361,6 +363,9 @@ function renderAlbum(albumIndex) { // albumIndex is a data object with index as 
     $addImageModal.css('display', 'flex');
   });
 
+  //when a user releases a key on the keyboard either add or remove the valid class
+  //this is for when a user is adding the url of the cover image for an album
+  //in this case, the parameters for validity are simple--the url needs to be anything but an empty string
   $('.image-url').on('keyup', function(){
     if ($(this).val() !== '') {
       $(".submit").addClass('valid');
@@ -368,27 +373,37 @@ function renderAlbum(albumIndex) { // albumIndex is a data object with index as 
       $(".submit").removeClass('valid');
     }
   });
-
+  //.off is the preferred method in the latest version of jQuery
+  //you've probably never heard of it ;)
+  //this is unbinding all click events on elements with the class "submit"
+  //this is useful because a listener was attached earlier on to an element that has the class "submit"
+  //then a new listener is created
   $(".submit").unbind('click');
   $('.submit').on('click', function(){
     console.log('CLICKED SUBMIT');
     var imgURL = $('.image-url').val();
 
+    //if the image url gievn by the user is not an empty string, initialize an album object and log it to the console
     if (imgURL !== '') {
       var albumObject = {
+        //albumName is the value given by the user when they create a new album
         title: albumName,
         likes: 0,
         images: [imgURL]
       };
       console.log(albumObject);
 
+      //then check to see if this user has an album already stored locally
       if(window.localStorage && localStorage.albums) {
           console.log('Album already exists');
           var albumsArray = localStorage.getItem('albums');
           albumsArray = JSON.parse(albumsArray);
+          //initialize savedAlbumExists to false.
           var savedAlbumExists = false;
           var savedAlbumIndex = 0;
 
+          //if an album in the array matches the albumName, then the saved album
+          //exists and its index is saved to a variable
           albumsArray.forEach(function(album, i){
             if (album.title === albumName) {
               savedAlbumExists = true;
@@ -396,25 +411,36 @@ function renderAlbum(albumIndex) { // albumIndex is a data object with index as 
             }
           });
           if (savedAlbumExists) {
+            //add image to album
             albumsArray[savedAlbumIndex].images.push(imgURL);
+            //redefine the albums variable in local storage now that the album has been updated
             localStorage.setItem('albums', JSON.stringify(albumsArray));
           } else {
+            //otherwise create a new album
             albumsArray.push(albumObject);
+            //save the updated albums variable in local storage
             localStorage.setItem('albums', JSON.stringify(albumsArray));
           }
 
         } else {
+          //no albums exist in local storage
+          //so add albumObject
           console.log('Creating new Album file');
+          //initialize albums array with single item--albumObject
           var albums = [albumObject];
           localStorage.setItem('albums', JSON.stringify(albums));
         }
         appendImage(imgURL, data[albumIndex].images.length-1);
         $grid.imagesLoaded().progress( function() {
         $grid.masonry('layout'); // Layout images after they have been loaded
+        //the modal container is the element that darkens the main content of the page when
+        //a user is making a new album
         $modalContainer.css('display', 'none');
         $('.modal').css('display', 'none');
       });
     } else {
+      //if a user tries to create a new album without supplying an image url
+      //the "form" shakes
       $('.add-image').effect('shake');
     }
   });
